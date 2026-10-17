@@ -175,6 +175,23 @@ removes only Papercraft’s block.
 
 ---
 
+## Conference directory
+
+`papercraft venues` lists 37 active AI venues by area, type, and cycle. It does
+**not** ship deadlines: every row is `UNVERIFIED` until you open the official
+CFP and mark it.
+
+```bash
+papercraft venues --area nlp
+papercraft venues --type journal
+papercraft venues-mark --id acl --status in_review \
+  --source-url https://... --verified-on 2026-10-17 --dir ~/papers/my-paper
+```
+
+See [guides/conferences.md](guides/conferences.md).
+
+---
+
 ## Use it manually
 
 The autopilot is optional. Every stage is also a command:
@@ -187,6 +204,8 @@ papercraft template --venue aaai --url https://.../aaai2027-kit.zip
 papercraft check --dir ~/papers/my-paper --with-repro
 papercraft recommend --dir ~/papers/my-paper --reviews review/*.json
 papercraft resubmit --dir ~/papers/my-paper --to acl --url https://.../acl-style.zip
+papercraft venues --area nlp
+papercraft venues-mark --id acl --status in_review --source-url https://...
 papercraft package --dir ~/papers/my-paper
 ```
 

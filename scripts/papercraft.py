@@ -594,11 +594,92 @@ def cmd_resubmit(args) -> int:
         shutil.rmtree(tmp, ignore_errors=True)
 
 
-def cmd_venues(_args) -> int:
-    for p in sorted((SRC / "conferences").glob("*.md")):
-        if p.name.startswith("_"):
+DIRECTORY = SRC / "conferences/directory.json"
+AREAS = ["general", "ml", "nlp", "vision", "data", "hci", "robotics", "theory", "education"]
+VENUE_STATUS = ["unknown", "in_review", "open", "upcoming", "rolling"]
+
+
+def load_directory() -> dict:
+    return json.loads(DIRECTORY.read_text(encoding="utf-8"))
+
+
+def overlay_path(root: Path) -> Path:
+    return root / "paper_state/conference-verifications.json"
+
+
+def load_overlay(root: Path) -> dict:
+    p = overlay_path(root)
+    if p.exists():
+        try:
+            return json.loads(p.read_text(encoding="utf-8"))
+        except Exception:  # noqa: BLE001
+            return {}
+    return {}
+
+
+def cmd_venues(args) -> int:
+    directory = load_directory()
+    root = Path(args.dir).expanduser().resolve()
+    overlay = load_overlay(root)
+    rows = []
+    for v in directory["venues"]:
+        o = overlay.get(v["id"], {})
+        status = o.get("status", "unknown")
+        verified = bool(o.get("verified_on"))
+        if args.area and args.area not in v.get("areas", []):
             continue
-        print(p.stem)
+        if args.type and args.type != v.get("type"):
+            continue
+        if args.status and args.status != status:
+            continue
+        if args.verified_only and not verified:
+            continue
+        rows.append({
+            **v,
+            "status": status,
+            "verified": verified,
+            "deadline": o.get("deadline"),
+            "source_url": o.get("source_url"),
+            "verified_on": o.get("verified_on"),
+        })
+
+    if args.json:
+        print(json.dumps(rows, indent=2, ensure_ascii=False))
+        return 0
+
+    print(f"{'ID':10} {'TYPE':10} {'CYCLE':8} {'PROFILE':7} {'STATUS':14} AREAS")
+    for r in rows:
+        status = f"VERIFIED:{r['status']}" if r["verified"] else "UNVERIFIED"
+        areas = ",".join(r.get("areas", []))[:38]
+        print(f"{r['id']:10} {r['type']:10} {r['cycle']:8} "
+              f"{'yes' if r.get('has_profile') else 'no':7} {status:14} {areas}")
+    print(f"\n{len(rows)} venues. Dates/status are UNVERIFIED until `papercraft venues-mark` "
+          "is given a source URL and date; open the official CFP before trusting them.")
+    return 0
+
+
+def cmd_venues_mark(args) -> int:
+    directory = load_directory()
+    ids = {v["id"] for v in directory["venues"]}
+    if args.id not in ids:
+        print(f"ERROR: unknown venue '{args.id}' (see `papercraft venues`)", file=sys.stderr)
+        return 2
+    if args.status != "unknown" and not args.source_url:
+        print("ERROR: --source-url is required when status != unknown", file=sys.stderr)
+        return 2
+    root = Path(args.dir).expanduser().resolve()
+    data = load_overlay(root)
+    data[args.id] = {
+        "status": args.status,
+        "source_url": args.source_url,
+        "verified_on": args.verified_on or dt.date.today().isoformat(),
+        "deadline": args.deadline,
+        "notes": args.notes or "",
+    }
+    p = overlay_path(root)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"{args.id}: {args.status} (verified {data[args.id]['verified_on']}) -> {p}")
     return 0
 
 
@@ -683,8 +764,25 @@ def main() -> int:
     p.add_argument("--list", action="store_true")
     p.set_defaults(fn=cmd_template)
 
-    p = sub.add_parser("list-venues")
-    p.set_defaults(fn=cmd_venues)
+    for name in ("venues", "list-venues"):
+        p = sub.add_parser(name)
+        p.add_argument("--area", choices=AREAS, default=None)
+        p.add_argument("--type", choices=["conference", "journal"], default=None)
+        p.add_argument("--status", choices=VENUE_STATUS, default=None)
+        p.add_argument("--verified-only", action="store_true")
+        p.add_argument("--dir", default=".")
+        p.add_argument("--json", action="store_true")
+        p.set_defaults(fn=cmd_venues)
+
+    p = sub.add_parser("venues-mark")
+    p.add_argument("--id", required=True)
+    p.add_argument("--status", choices=VENUE_STATUS, default="in_review")
+    p.add_argument("--source-url", default=None)
+    p.add_argument("--verified-on", default=None)
+    p.add_argument("--deadline", default=None)
+    p.add_argument("--notes", default="")
+    p.add_argument("--dir", default=".")
+    p.set_defaults(fn=cmd_venues_mark)
 
     p = sub.add_parser("doctor")
     p.set_defaults(fn=cmd_doctor)

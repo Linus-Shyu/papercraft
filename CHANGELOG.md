@@ -1,5 +1,19 @@
 # Changelog
 
+## 3.6.0 — 2026-10-17
+
+Conference directory:
+
+- `conferences/directory.json`: 37 active AI venues with area, type, cycle,
+  official URL, and a `has_profile` flag. **No deadlines or statuses are stored**
+  until verified.
+- `papercraft venues` (alias `list-venues`): filter by area/type/status,
+  `--verified-only`, `--json`.
+- `papercraft venues-mark`: writes `paper_state/conference-verifications.json`
+  with status, source URL, `verified_on`, optional deadline/notes.
+- `scripts/check_directory.py`: schema, URLs, duplicates, overlay, staleness.
+- `guides/conferences.md`; `scripts/directory_selftest.sh`.
+
 ## 3.5.0 — 2026-10-17
 
 Minimal invocation:

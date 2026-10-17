@@ -29,6 +29,16 @@
 | `install.sh --project` → `--uninstall --project` | pointers created, user `AGENTS.md` restored |
 | `skill` load in DSH | catalog lists `papercraft`; content returned |
 
+## Conference directory
+
+- `papercraft venues --area nlp` lists the NLP venues from 37 directory entries.
+- `papercraft venues --json` parses to 37 records.
+- `papercraft venues-mark --id acl --status in_review --source-url ...` writes the
+  project overlay; `--verified-only` then shows `VERIFIED:in_review`.
+- `check_directory.py` passes on the global directory; `--require-verified`
+  correctly fails when only one venue is verified.
+- `directory_selftest.sh` covers the above.
+
 ## Chat-only bootstrap test
 
 An empty folder (`/tmp/chatmode`) was opened with a single chat prompt: "Use the

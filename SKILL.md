@@ -8,7 +8,7 @@ description: >-
   figures/tables, adversarial reviewing, and per-conference profiles (AAAI,
   NeurIPS, ICML, ICLR, ACL, EMNLP, CVPR, KDD, CHI, TMLR).
 license: MIT
-version: 3.5.0
+version: 3.6.0
 ---
 
 # Papercraft — Evidence-First Paper Production & Review
@@ -121,7 +121,7 @@ Read the user's request, pick **one** primary mode, and state it.
 | `rebut` | Reviews arrived | `guides/rebuttal.md` | Point-by-point response |
 | `camera-ready` | Accepted | `guides/rebuttal.md` §4, `templates/camera-ready-checklist.md` | Corrected PDF + diff log |
 | `resubmit` | Rejected; choose next venue | `guides/resubmission.md` | Shortlist + template switch + memo |
-| `conference` | "What does X require?" | `conferences/_schema.md` + profile | Verified rule sheet |
+| `conference` | "What conferences are active?" / "What does X require?" | `conferences/directory.json` + profile | Filtered list + verified rule sheet |
 
 If a request mixes modes (e.g., "write and check"), run `write` → `audit` and
 keep the gate report separate from the prose.
@@ -282,6 +282,14 @@ Follow `REVIEWING.md` exactly. Key constraints:
 - Never demand a new dataset/experiment that the paper could not reasonably run
   in a rebuttal; ask for clarifications or bounded additions instead.
 
+### 6.6b Conference landscape
+
+1. Filter the directory: `papercraft venues --area nlp` (or `--type journal`).
+2. Do **not** report a deadline/status from memory; open the official CFP.
+3. Mark what you verified: `papercraft venues-mark --id ... --status ... --source-url ...`.
+4. For a submission shortlist, use `papercraft recommend`.
+5. A row without `verified_on` is `UNVERIFIED`; say so.
+
 ### 6.7 Acceptance assessment
 
 1. Fill `templates/acceptance.json`: readiness (5 dims), venue fit, risks with
@@ -379,7 +387,7 @@ AUTOPILOT.md                 end-to-end runbook (stages, prompts, checkpoints)
 EDITORS.md                   per-editor activation + smoke test
 WRITING.md                   writing playbook (standalone)
 REVIEWING.md                 reviewing playbook (standalone)
-conferences/                 venue profiles + schema + templates/fit metadata
+conferences/                 venue profiles + schema + directory/templates/fit metadata
 guides/literature.md         survey protocol, screening, closest-work delta
 guides/feasibility.md        go/no-go, resources, MPU, novelty risk
 guides/experiments.md        hypotheses, controls, power, leakage, registry
@@ -389,6 +397,7 @@ guides/math.md               notation, derivation checklist, numeric checks
 guides/repro.md              run registry, cache vs run, artifact
 guides/acceptance.md         readiness, venue fit, reviewer risk, decision
 guides/templates.md          fetch/verify official templates + provenance
+guides/conferences.md        directory: active venues, areas, marking
 guides/resubmission.md       rejection triage, venue shortlist, template switch
 guides/harness.md            DSH tool rules in depth
 guides/failure-modes.md      failure taxonomy + detection

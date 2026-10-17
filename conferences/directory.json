@@ -1,0 +1,478 @@
+{
+  "_comment": "Conference directory metadata. Dates/status are NOT stored here until verified; use `papercraft venues mark` to add project-level verification. Never treat a row as a deadline without opening the official CFP.",
+  "venues": [
+    {
+      "id": "aaai",
+      "name": "AAAI Conference on Artificial Intelligence",
+      "type": "conference",
+      "areas": [
+        "general",
+        "ml",
+        "nlp",
+        "vision",
+        "hci",
+        "education"
+      ],
+      "cycle": "annual",
+      "official_url": "https://aaai.org/",
+      "notes": "General AI; verify the current CFP.",
+      "has_profile": "True"
+    },
+    {
+      "id": "neurips",
+      "name": "Conference on Neural Information Processing Systems",
+      "type": "conference",
+      "areas": [
+        "ml",
+        "vision",
+        "nlp",
+        "theory"
+      ],
+      "cycle": "annual",
+      "official_url": "https://neurips.cc/",
+      "notes": "ML/vision/NLP; checklist and evidence scale.",
+      "has_profile": "True"
+    },
+    {
+      "id": "icml",
+      "name": "International Conference on Machine Learning",
+      "type": "conference",
+      "areas": [
+        "ml",
+        "theory"
+      ],
+      "cycle": "annual",
+      "official_url": "https://icml.cc/",
+      "notes": "ML methods/theory; reproducibility statement.",
+      "has_profile": "True"
+    },
+    {
+      "id": "iclr",
+      "name": "International Conference on Learning Representations",
+      "type": "conference",
+      "areas": [
+        "ml",
+        "nlp",
+        "vision"
+      ],
+      "cycle": "annual",
+      "official_url": "https://iclr.cc/",
+      "notes": "OpenReview; analysis and failure modes.",
+      "has_profile": "True"
+    },
+    {
+      "id": "colm",
+      "name": "Conference on Language Modeling",
+      "type": "conference",
+      "areas": [
+        "nlp",
+        "ml"
+      ],
+      "cycle": "annual",
+      "official_url": "https://colmweb.org/",
+      "notes": "Language models; verify current edition.",
+      "has_profile": false
+    },
+    {
+      "id": "tmlr",
+      "name": "Transactions on Machine Learning Research",
+      "type": "journal",
+      "areas": [
+        "ml",
+        "nlp",
+        "vision",
+        "general"
+      ],
+      "cycle": "rolling",
+      "official_url": "https://jmlr.org/tmlr/",
+      "notes": "Rolling; correctness/reproducibility over novelty.",
+      "has_profile": "True"
+    },
+    {
+      "id": "jair",
+      "name": "Journal of Artificial Intelligence Research",
+      "type": "journal",
+      "areas": [
+        "general",
+        "ml"
+      ],
+      "cycle": "rolling",
+      "official_url": "https://jair.org/",
+      "notes": "AI journal; rolling.",
+      "has_profile": false
+    },
+    {
+      "id": "acl",
+      "name": "Annual Meeting of the Association for Computational Linguistics",
+      "type": "conference",
+      "areas": [
+        "nlp",
+        "education"
+      ],
+      "cycle": "annual",
+      "official_url": "https://aclweb.org/",
+      "notes": "NLP; mandatory limitations; ARR.",
+      "has_profile": "True"
+    },
+    {
+      "id": "emnlp",
+      "name": "Conference on Empirical Methods in Natural Language Processing",
+      "type": "conference",
+      "areas": [
+        "nlp"
+      ],
+      "cycle": "annual",
+      "official_url": "https://sigdat.org/",
+      "notes": "Empirical NLP; variance/seeds.",
+      "has_profile": "True"
+    },
+    {
+      "id": "naacl",
+      "name": "North American Chapter of the Association for Computational Linguistics",
+      "type": "conference",
+      "areas": [
+        "nlp"
+      ],
+      "cycle": "annual",
+      "official_url": "https://naacl.org/",
+      "notes": "NLP; ARR.",
+      "has_profile": false
+    },
+    {
+      "id": "eacl",
+      "name": "European Chapter of the Association for Computational Linguistics",
+      "type": "conference",
+      "areas": [
+        "nlp"
+      ],
+      "cycle": "annual",
+      "official_url": "https://eacl.org/",
+      "notes": "NLP; ARR.",
+      "has_profile": false
+    },
+    {
+      "id": "coling",
+      "name": "International Conference on Computational Linguistics",
+      "type": "conference",
+      "areas": [
+        "nlp"
+      ],
+      "cycle": "annual",
+      "official_url": "https://colingportal.org/",
+      "notes": "NLP; verify current cycle.",
+      "has_profile": false
+    },
+    {
+      "id": "tacl",
+      "name": "Transactions of the Association for Computational Linguistics",
+      "type": "journal",
+      "areas": [
+        "nlp"
+      ],
+      "cycle": "rolling",
+      "official_url": "https://transacl.org/",
+      "notes": "NLP journal; rolling.",
+      "has_profile": false
+    },
+    {
+      "id": "cvpr",
+      "name": "IEEE/CVF Conference on Computer Vision and Pattern Recognition",
+      "type": "conference",
+      "areas": [
+        "vision",
+        "ml"
+      ],
+      "cycle": "annual",
+      "official_url": "https://cvpr.thecvf.com/",
+      "notes": "Vision; benchmark gains and ablations.",
+      "has_profile": "True"
+    },
+    {
+      "id": "iccv",
+      "name": "IEEE/CVF International Conference on Computer Vision",
+      "type": "conference",
+      "areas": [
+        "vision"
+      ],
+      "cycle": "annual",
+      "official_url": "https://iccv.thecvf.com/",
+      "notes": "Vision; odd years.",
+      "has_profile": false
+    },
+    {
+      "id": "eccv",
+      "name": "European Conference on Computer Vision",
+      "type": "conference",
+      "areas": [
+        "vision"
+      ],
+      "cycle": "annual",
+      "official_url": "https://eccv.ecva.net/",
+      "notes": "Vision; even years.",
+      "has_profile": false
+    },
+    {
+      "id": "wacv",
+      "name": "IEEE/CVF Winter Conference on Applications of Computer Vision",
+      "type": "conference",
+      "areas": [
+        "vision"
+      ],
+      "cycle": "annual",
+      "official_url": "https://wacv.thecvf.com/",
+      "notes": "Applied vision.",
+      "has_profile": false
+    },
+    {
+      "id": "bmvc",
+      "name": "British Machine Vision Conference",
+      "type": "conference",
+      "areas": [
+        "vision"
+      ],
+      "cycle": "annual",
+      "official_url": "https://bmva.org/",
+      "notes": "Vision; verify current edition.",
+      "has_profile": false
+    },
+    {
+      "id": "3dv",
+      "name": "International Conference on 3D Vision",
+      "type": "conference",
+      "areas": [
+        "vision"
+      ],
+      "cycle": "annual",
+      "official_url": "https://3dvconf.github.io/",
+      "notes": "3D vision.",
+      "has_profile": false
+    },
+    {
+      "id": "tpami",
+      "name": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+      "type": "journal",
+      "areas": [
+        "vision",
+        "ml"
+      ],
+      "cycle": "rolling",
+      "official_url": "https://www.computer.org/csdl/journal/tp",
+      "notes": "Vision/ML journal; rolling.",
+      "has_profile": false
+    },
+    {
+      "id": "kdd",
+      "name": "ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+      "type": "conference",
+      "areas": [
+        "data",
+        "ml"
+      ],
+      "cycle": "annual",
+      "official_url": "https://kdd.org/",
+      "notes": "Data mining/applied; deployment and scale.",
+      "has_profile": "True"
+    },
+    {
+      "id": "www",
+      "name": "ACM Web Conference",
+      "type": "conference",
+      "areas": [
+        "data",
+        "ml"
+      ],
+      "cycle": "annual",
+      "official_url": "https://www.thewebconf.org/",
+      "notes": "Web/graph/applied.",
+      "has_profile": false
+    },
+    {
+      "id": "wsdm",
+      "name": "ACM International Conference on Web Search and Data Mining",
+      "type": "conference",
+      "areas": [
+        "data"
+      ],
+      "cycle": "annual",
+      "official_url": "https://www.wsdm-conference.org/",
+      "notes": "Web search/data mining.",
+      "has_profile": false
+    },
+    {
+      "id": "sigir",
+      "name": "ACM SIGIR Conference on Research and Development in Information Retrieval",
+      "type": "conference",
+      "areas": [
+        "data",
+        "nlp"
+      ],
+      "cycle": "annual",
+      "official_url": "https://sigir.org/",
+      "notes": "IR/retrieval.",
+      "has_profile": false
+    },
+    {
+      "id": "cikm",
+      "name": "ACM International Conference on Information and Knowledge Management",
+      "type": "conference",
+      "areas": [
+        "data"
+      ],
+      "cycle": "annual",
+      "official_url": "https://www.cikmconference.org/",
+      "notes": "IR/data management.",
+      "has_profile": false
+    },
+    {
+      "id": "recsys",
+      "name": "ACM Conference on Recommender Systems",
+      "type": "conference",
+      "areas": [
+        "data"
+      ],
+      "cycle": "annual",
+      "official_url": "https://recsys.acm.org/",
+      "notes": "Recommender systems.",
+      "has_profile": false
+    },
+    {
+      "id": "chi",
+      "name": "ACM CHI Conference on Human Factors in Computing Systems",
+      "type": "conference",
+      "areas": [
+        "hci",
+        "education"
+      ],
+      "cycle": "annual",
+      "official_url": "https://chi.acm.org/",
+      "notes": "HCI; contribution type and ethics.",
+      "has_profile": "True"
+    },
+    {
+      "id": "cscw",
+      "name": "ACM Conference on Computer-Supported Cooperative Work and Social Computing",
+      "type": "conference",
+      "areas": [
+        "hci"
+      ],
+      "cycle": "annual",
+      "official_url": "https://cscw.acm.org/",
+      "notes": "HCI/CSCW.",
+      "has_profile": false
+    },
+    {
+      "id": "uist",
+      "name": "ACM Symposium on User Interface Software and Technology",
+      "type": "conference",
+      "areas": [
+        "hci"
+      ],
+      "cycle": "annual",
+      "official_url": "https://uist.acm.org/",
+      "notes": "HCI/UI systems.",
+      "has_profile": false
+    },
+    {
+      "id": "aied",
+      "name": "International Conference on Artificial Intelligence in Education",
+      "type": "conference",
+      "areas": [
+        "education",
+        "hci"
+      ],
+      "cycle": "annual",
+      "official_url": "https://iaied.org/",
+      "notes": "AI education; verify current cycle.",
+      "has_profile": false
+    },
+    {
+      "id": "lak",
+      "name": "International Conference on Learning Analytics and Knowledge",
+      "type": "conference",
+      "areas": [
+        "education",
+        "data"
+      ],
+      "cycle": "annual",
+      "official_url": "https://www.solaresearch.org/events/lak/",
+      "notes": "Learning analytics.",
+      "has_profile": false
+    },
+    {
+      "id": "icra",
+      "name": "IEEE International Conference on Robotics and Automation",
+      "type": "conference",
+      "areas": [
+        "robotics"
+      ],
+      "cycle": "annual",
+      "official_url": "https://www.ieee-ras.org/conferences-workshops/icra",
+      "notes": "Robotics.",
+      "has_profile": false
+    },
+    {
+      "id": "iros",
+      "name": "IEEE/RSJ International Conference on Intelligent Robots and Systems",
+      "type": "conference",
+      "areas": [
+        "robotics"
+      ],
+      "cycle": "annual",
+      "official_url": "https://www.ieee-ras.org/conferences-workshops/iros",
+      "notes": "Robotics.",
+      "has_profile": false
+    },
+    {
+      "id": "corl",
+      "name": "Conference on Robot Learning",
+      "type": "conference",
+      "areas": [
+        "robotics",
+        "ml"
+      ],
+      "cycle": "annual",
+      "official_url": "https://www.corl.org/",
+      "notes": "Robot learning.",
+      "has_profile": false
+    },
+    {
+      "id": "aistats",
+      "name": "International Conference on Artificial Intelligence and Statistics",
+      "type": "conference",
+      "areas": [
+        "ml",
+        "theory"
+      ],
+      "cycle": "annual",
+      "official_url": "https://aistats.org/",
+      "notes": "Statistics/ML.",
+      "has_profile": false
+    },
+    {
+      "id": "uai",
+      "name": "Conference on Uncertainty in Artificial Intelligence",
+      "type": "conference",
+      "areas": [
+        "ml",
+        "theory"
+      ],
+      "cycle": "annual",
+      "official_url": "https://www.auai.org/",
+      "notes": "Uncertainty/ML.",
+      "has_profile": false
+    },
+    {
+      "id": "colt",
+      "name": "Annual Conference on Learning Theory",
+      "type": "conference",
+      "areas": [
+        "theory",
+        "ml"
+      ],
+      "cycle": "annual",
+      "official_url": "https://learningtheory.org/",
+      "notes": "Learning theory.",
+      "has_profile": false
+    }
+  ]
+}

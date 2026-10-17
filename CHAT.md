@@ -2,6 +2,26 @@
 
 > Open a folder. Mention the skill. Paste one message. That is the whole UX.
 
+## The only sentence you need
+
+```text
+写一篇关于 <题目> 的论文，投 <会议>。
+```
+
+That is enough. Defaults: folder `./papercraft-paper` in the current workspace,
+venue AAAI, at most 3 questions, H1/H2/H3. The agent bootstraps the project.
+
+If the agent does not pick up the skill automatically, put **用 papercraft** in
+front:
+
+```text
+用 papercraft 写一篇关于 <题目> 的论文，投 <会议>。
+```
+
+The rest of this file is only for editors that do not auto-route.
+
+---
+
 ## 1. Open the paper folder
 
 - New paper: create an empty folder (e.g. `~/papers/my-paper`) and open **that

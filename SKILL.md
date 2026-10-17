@@ -8,7 +8,7 @@ description: >-
   figures/tables, adversarial reviewing, and per-conference profiles (AAAI,
   NeurIPS, ICML, ICLR, ACL, EMNLP, CVPR, KDD, CHI, TMLR).
 license: MIT
-version: 3.4.0
+version: 3.5.0
 ---
 
 # Papercraft — Evidence-First Paper Production & Review
@@ -44,6 +44,23 @@ A small operating system for producing a paper with an AI assistant:
 **Not** a ghostwriter: it does not invent results, citations, baselines, or
 reviewer opinions. If the evidence does not exist, the correct output is
 `UNVERIFIED` or "stop", not a plausible sentence.
+
+### Minimal invocation (the default)
+
+If the user says any of:
+
+- `写一篇关于 X 的论文`
+- `write a paper about X`
+- `用 papercraft 写 X，投 AAAI`
+
+treat it as **autopilot**. Do not ask them to restate the topic, do not ask for a
+path, do not ask them to run commands. Defaults:
+
+- workspace: current folder; if it has `main.tex`, use it; otherwise create
+  `./papercraft-paper`;
+- venue: AAAI unless specified;
+- 3 questions max, H1/H2/H3;
+- bootstrap yourself (`papercraft new --topic ...`).
 
 ### Autopilot (the one-prompt mode)
 

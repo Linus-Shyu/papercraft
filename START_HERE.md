@@ -4,6 +4,20 @@ You only need a topic. The agent runs survey → feasibility → experiments →
 writing → audit → review → acceptance. It asks at most 3 questions and stops at
 3 checkpoints. It will **not** invent results or citations.
 
+## The only sentence you need
+
+```text
+写一篇关于 <题目> 的论文，投 <会议>。
+```
+
+The agent defaults to `./papercraft-paper` in the current workspace, venue AAAI,
+3 questions, and H1/H2/H3. If it does not auto-route, say
+**用 papercraft 写一篇关于 <题目> 的论文**。
+
+The steps below are the expanded version.
+
+---
+
 ## 1. Open a folder
 
 Create an empty folder for the paper (or open an existing paper repo). Open

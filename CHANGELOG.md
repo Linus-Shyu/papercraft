@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.5.0 — 2026-10-17
+
+Minimal invocation:
+
+- One sentence is enough: `写一篇关于 <题目> 的论文，投 <会议>.`
+- Defaults: `./papercraft-paper`, venue AAAI, 3 questions, H1/H2/H3.
+- `papercraft new` now defaults `--dir` to `./papercraft-paper`.
+- `SKILL.md`, `AUTOPILOT.md`, `CHAT.md`, `START_HERE.md`, README lead with the
+  one-sentence form; the long prompts are fallback only.
+
 ## 3.4.0 — 2026-10-17
 
 Chat-only UX:

@@ -57,9 +57,15 @@ cd papercraft
 ./install.sh --all
 ```
 
-Open an empty folder (or an existing paper repo) in your editor, mention
-`@papercraft` (or `@SKILL.md`), and paste the message from [CHAT.md](CHAT.md).
-The agent bootstraps the project; you only answer H1/H2/H3.
+Open a folder in your editor and say:
+
+```text
+写一篇关于 <题目> 的论文，投 <会议>。
+```
+
+That is the whole prompt. Defaults: `./papercraft-paper`, venue AAAI, 3
+questions, H1/H2/H3. If the editor does not auto-route, say
+**用 papercraft** first. Details: [CHAT.md](CHAT.md).
 
 **Terminal (optional).**
 

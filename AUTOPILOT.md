@@ -38,6 +38,12 @@ If the folder has no `main.tex` / `paper_state/`:
 Never ask the user to run a command they could run themselves. The user's only
 job is H1/H2/H3.
 
+## 0. Minimal trigger
+
+If the user says `写一篇关于 X 的论文` / `write a paper about X`, start
+immediately. Do not ask for a prompt, a path, or commands. Defaults: current
+folder (or `./papercraft-paper`), venue AAAI, 3 questions, H1/H2/H3.
+
 ## 1. First message (the only one the user needs)
 
 The agent sends:

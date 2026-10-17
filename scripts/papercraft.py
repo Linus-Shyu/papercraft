@@ -623,7 +623,7 @@ def main() -> int:
     p = sub.add_parser("new")
     p.add_argument("--topic", required=True)
     p.add_argument("--venue", default="aaai")
-    p.add_argument("--dir", required=True)
+    p.add_argument("--dir", default="./papercraft-paper")
     p.add_argument("--force", action="store_true")
     p.add_argument("--fetch-template", action="store_true",
                    help="fetch the official template if a source is configured")

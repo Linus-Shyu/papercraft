@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.1.0 — 2026-10-17
+
+- Multi-agent installer `install.py` (wrapper: `install.sh`):
+  - native skill dirs for DSH (`~/.dsh/skills`), shared `~/.agents/skills`,
+    Claude Code (`~/.claude/skills`), Cursor (`~/.cursor/skills`), Codex
+    (`~/.codex/skills`);
+  - project pointers for `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`,
+    `.cursor/rules/*.mdc`, `.clinerules/`, `.windsurf/rules/`, `.continue/rules/`,
+    `.github/copilot-instructions.md`, `CONVENTIONS.md`, `.rules`;
+  - idempotent marker blocks, backups only for user-owned files, `--uninstall`,
+    `--dry-run`, `--copy`, `--force`, `--list`.
+- `scripts/install_selftest.sh` verifies install/idempotency/uninstall in a temp
+  project; `make test` runs it.
+
 ## 1.0.1 — 2026-10-17
 
 - Fix relative-path resolution in `check_floats.py` and `check_anonymity.py`

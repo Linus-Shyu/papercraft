@@ -8,7 +8,7 @@ description: >-
   figures/tables, adversarial reviewing, and per-conference profiles (AAAI,
   NeurIPS, ICML, ICLR, ACL, EMNLP, CVPR, KDD, CHI, TMLR).
 license: MIT
-version: 1.0.1
+version: 1.1.0
 ---
 
 # Papercraft — Evidence-First Paper Production & Review

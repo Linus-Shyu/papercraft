@@ -3,6 +3,7 @@
 test:
 	bash scripts/smoke_test.sh
 	bash scripts/selftest.sh
+	bash scripts/install_selftest.sh
 
 lint:
 	python3 -m py_compile scripts/*.py

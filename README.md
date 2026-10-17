@@ -32,22 +32,51 @@ Papercraft is a set of **contracts and checkers** for exactly these failures.
 
 ---
 
-## Install
+## Install (all agents / IDEs)
 
 ```bash
-git clone <this-repo> papercraft
-cd papercraft
-./install.sh                 # symlink to ~/.dsh/skills/papercraft
-# or: ./install.sh --copy
-# or: ./install.sh --project /path/to/paper-repo
+git clone <this-repo> papercraft && cd papercraft
+./install.sh                 # DSH only (old default)
+./install.sh --all           # native dirs for DSH, ~/.agents, Claude Code, Cursor, Codex
+./install.sh --project DIR   # project native dirs + pointer files (recommended per paper repo)
+./install.sh --list          # show the full matrix
+./install.sh --uninstall --project DIR
 ```
 
-Restart DSH or start a new session so the skill catalog reloads.
+| Agent / IDE | Native skill dir (`SKILL.md`) | Project pointer |
+|---|---|---|
+| DSH | `~/.dsh/skills/papercraft` | — |
+| Shared Agent Skills | `~/.agents/skills/papercraft` | — |
+| Claude Code | `~/.claude/skills/papercraft` | `CLAUDE.md` |
+| Cursor | `~/.cursor/skills/papercraft` | `.cursor/rules/papercraft.mdc` |
+| Codex | `~/.codex/skills/papercraft` | `AGENTS.md` |
+| Gemini CLI | — | `GEMINI.md` |
+| Cline | — | `.clinerules/papercraft.md` |
+| Windsurf | — | `.windsurf/rules/papercraft.md` |
+| Continue | — | `.continue/rules/papercraft.md` |
+| GitHub Copilot | — | `.github/copilot-instructions.md` |
+| Aider | — | `CONVENTIONS.md` |
+| Zed | — | `.rules` |
+
+How it works:
+
+- **Native dirs** get a symlink to this repo (or `--copy`). The `SKILL.md`
+  frontmatter is the common Agent Skills format used by DSH/Claude/Cursor/Codex.
+- **Pointers** are short marker blocks that tell the agent to read the absolute
+  path of `SKILL.md`. They are idempotent; shared files are backed up only if
+  you already had content; `--uninstall` removes only Papercraft's block.
+- `AGENTS.md` is the universal fallback for tools without a skill loader.
+- Pointers embed an **absolute path**; re-run the installer if you move the
+  repo. Tools differ: a pointer is an instruction, not a guarantee that the
+  tool auto-loads it — check the tool's docs/UI.
+
+Restart DSH (or start a new session) so the skill catalog reloads.
 
 Verify:
 
 ```bash
 python3 scripts/check_conference.py conferences/aaai.md
+./install.sh --list
 ```
 
 ---
@@ -111,6 +140,8 @@ Do not apply any page limit from memory.
 | `templates/` | Ledgers, registries, numbers, review report, checklist |
 | `scripts/` | `check_numbers`, `check_citations`, `check_floats`, `check_anonymity`, `check_conference`, `build`, `audit` |
 | `examples/` | Minimal config and numbers file |
+| `install.sh` / `install.py` | Multi-agent installer (native dirs + pointer files) |
+| `scripts/install_selftest.sh` | Installer round-trip test (temp project only) |
 
 ---
 

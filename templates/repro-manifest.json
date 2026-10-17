@@ -1,0 +1,12 @@
+{
+  "timeout": 300,
+  "entries": [
+    {
+      "id": "E1",
+      "command": "python3 scripts/experiments/e1.py",
+      "output": "data/results/e1.json",
+      "sha256": null,
+      "expect": {"conditions.0.ear": 0.5623}
+    }
+  ]
+}

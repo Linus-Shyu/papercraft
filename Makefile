@@ -3,6 +3,7 @@
 test:
 	bash scripts/smoke_test.sh
 	bash scripts/selftest.sh
+	bash scripts/selftest_extended.sh
 	bash scripts/install_selftest.sh
 
 lint:

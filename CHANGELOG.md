@@ -1,5 +1,27 @@
 # Changelog
 
+## 2.0.0 — 2026-10-17
+
+Full research lifecycle:
+
+- New guides: `literature`, `feasibility`, `experiments`, `math`, `repro`,
+  `acceptance`.
+- New scripts:
+  - `check_literature.py` (matrix schema, closest-work coverage, verification);
+  - `check_math.py` (labels/refs, delimiter balance, symbol coverage, numeric
+    expressions);
+  - `check_repro.py` (run or verify commands, output hashes, expected values);
+  - `score_review.py` (review schema, evidence requirements, score/text
+    consistency);
+  - `score_acceptance.py` (readiness/fit/risk band, submit safety check).
+- New templates: literature matrix, feasibility memo, experiment plan, math
+  config, repro manifest, review score, acceptance assessment.
+- New gates: G3b literature, G7 math, G8 repro, G9 review, G10 acceptance,
+  G11 camera-ready.
+- `audit.sh` runs literature/math/repro when the state files exist;
+  `--with-repro` executes commands in a temp copy.
+- Extended self-tests: `scripts/selftest_extended.sh`.
+
 ## 1.1.0 — 2026-10-17
 
 - Multi-agent installer `install.py` (wrapper: `install.sh`):

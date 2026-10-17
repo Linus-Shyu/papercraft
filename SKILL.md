@@ -8,7 +8,7 @@ description: >-
   figures/tables, adversarial reviewing, and per-conference profiles (AAAI,
   NeurIPS, ICML, ICLR, ACL, EMNLP, CVPR, KDD, CHI, TMLR).
 license: MIT
-version: 1.1.0
+version: 2.0.0
 ---
 
 # Papercraft — Evidence-First Paper Production & Review
@@ -71,6 +71,9 @@ Read the user's request, pick **one** primary mode, and state it.
 | Mode | Trigger | Read first | Output |
 |---|---|---|---|
 | `intake` | New paper/project, unclear scope | `WRITING.md` §1–3, `conferences/` | Scope memo + conference profile + open questions |
+| `survey` | Literature review / novelty check | `guides/literature.md` | Matrix + closest-3 + delta |
+| `feasibility` | Go/no-go before experiments | `guides/feasibility.md` | Memo + MPU + resource/risk table |
+| `design` | Experiment planning | `guides/experiments.md` | Experiment card + registry |
 | `write` | Draft/rewrite sections | `WRITING.md`, `guides/evidence.md` | Section drafts + ledger updates |
 | `numbers` | New results, table/figure updates | `guides/evidence.md`, `templates/numbers.json` | Canonical numbers + `check_numbers.py` pass |
 | `figures` | Plots, tables, captions | `guides/evidence.md` §5–6, `guides/harness.md` | Script-generated float + registry |
@@ -122,6 +125,11 @@ the artifact exclusions.
 | `paper_state/claim-ledger.csv` | `templates/claim-ledger.csv` | Claim IDs, status |
 | `paper_state/experiment-registry.csv` | `templates/experiment-registry.csv` | Command, seed, output |
 | `paper_state/figure-registry.csv` | `templates/figure-registry.csv` | Script → float map |
+| `paper_state/literature-matrix.csv` | `templates/literature-matrix.csv` | Survey coverage + verification |
+| `paper_state/math.json` | `templates/math.json` | Symbols + numeric checks |
+| `paper_state/repro-manifest.json` | `templates/repro-manifest.json` | Command → output → hash |
+| `paper_state/review-score.json` | `templates/review-score.json` | Structured review |
+| `paper_state/acceptance.json` | `templates/acceptance.json` | Risk memo |
 | `paper_state/numbers.json` | `templates/numbers.json` | Canonical values |
 | `paper_state/conference.yaml` | `conferences/_schema.md` | Venue + verification |
 | `paper_state/citation-audit.md` | `guides/citations.md` | Per-key status |
@@ -142,11 +150,15 @@ Run gates in order. A `BLOCKER` stops the pipeline; do not proceed to prose.
 | **G1 Claims** | Does every claim have a ledger row? | No `UNSUPPORTED` claims in abstract/intro/results | `templates/claim-ledger.csv` |
 | **G2 Numbers** | Does every number trace to a source and match? | 0 mismatches, 0 stale values | `scripts/check_numbers.py` |
 | **G3 Citations** | Is every citation verified? | 0 cited-missing, 0 malformed, 0 `UNVERIFIED` in main claims | `scripts/check_citations.py` |
+| **G3b Literature** | Is the survey complete and verified? | 0 `SUSPECT`, ≥3 closest, every gap filled | `scripts/check_literature.py` |
 | **G4 Floats** | Is every float generated, labelled, referenced? | 0 orphans, 0 missing files, 0 uncited floats | `scripts/check_floats.py` |
 | **G5 Anonymity** | Any identity/secret leaks? | 0 hits or all allow-listed | `scripts/check_anonymity.py` |
 | **G6 Build** | Does it compile cleanly? | 0 errors, 0 undefined refs/citations; page count within limit | `scripts/build.sh` |
-| **G7 Review** | Would an adversarial reviewer kill it? | All `BLOCKER` review findings resolved or rebutted | `REVIEWING.md` |
-| **G8 Camera-ready** | Corrected + consistent + packaged? | Diff log, rebuild, artifact sync, checklist | `templates/camera-ready-checklist.md` |
+| **G7 Math** | Are symbols defined, delimiters balanced, arithmetic checks passing? | 0 hard errors; notation table complete | `scripts/check_math.py` |
+| **G8 Repro** | Did the code actually run and produce the recorded outputs? | 0 non-zero exits, 0 hash/value mismatches | `scripts/check_repro.py` |
+| **G9 Review** | Would an adversarial reviewer kill it? | All `BLOCKER` findings resolved or rebutted; scores consistent | `REVIEWING.md`, `scripts/score_review.py` |
+| **G10 Acceptance** | Is it ready for this venue? | No unresolved `BLOCKER`; band ≠ weak | `guides/acceptance.md`, `scripts/score_acceptance.py` |
+| **G11 Camera-ready** | Corrected + consistent + packaged? | Diff log, rebuild, artifact sync, checklist | `templates/camera-ready-checklist.md` |
 
 Gate report format:
 
@@ -162,7 +174,34 @@ No prose is written while a gate is red.
 
 ## 6. Workflows
 
-### 6.1 Write a paper (from zero)
+### 6.1 Survey the field
+
+1. Write the search protocol (`guides/literature.md` §1): keywords, databases,
+   date range, inclusion/exclusion, stop rule.
+2. Screen and fill `paper_state/literature-matrix.csv`; verify every key
+   (`guides/citations.md`).
+3. Write the closest-3 table and the one-sentence delta.
+4. Run `scripts/check_literature.py`; resolve `SUSPECT` and missing gaps.
+5. Feed the delta into `WRITING.md` §2 (C2) and the related-work outline.
+
+### 6.2 Feasibility (go/no-go)
+
+1. Write the claim, MPU, resource matrix, and falsifier (`guides/feasibility.md`).
+2. Run the novelty check against the closest 3.
+3. Score resources; any 0 in data/compute/labels/evaluation is a no-go unless
+   the claim is scoped around it.
+4. Record the decision in `templates/feasibility-memo.md`; revisit after the pilot.
+
+### 6.3 Design experiments
+
+1. One experiment card per question (`guides/experiments.md` §1).
+2. Fix baselines, controls, splits, seeds, metrics, and the decision rule
+   *before* running.
+3. Record commands in `paper_state/experiment-registry.csv`.
+4. After running, update `numbers.json` and the claim ledger.
+5. Write the falsifier: what outcome would kill the claim?
+
+### 6.4 Write a paper (from zero)
 
 1. **Intake** — fill `paper_state/conference.yaml`, write a 5-line scope memo,
    list the non-claims.
@@ -181,7 +220,7 @@ No prose is written while a gate is red.
 9. **Package** — anonymize, build in clean copy, verify page limit, update
    artifact, record hashes.
 
-### 6.2 Audit an existing paper
+### 6.5 Audit an existing paper
 
 1. Read the paper, not the abstract only: PDF text + source + tables + JSON.
 2. Build in `/tmp`; record page count and warnings.
@@ -191,7 +230,7 @@ No prose is written while a gate is red.
 5. Produce a gate report ordered `BLOCKER > MAJOR > MINOR > NIT`.
 6. Do **not** fix anything in the same pass; fixes go in a separate branch.
 
-### 6.3 Review a paper (for a venue)
+### 6.6 Review a paper (for a venue)
 
 Follow `REVIEWING.md` exactly. Key constraints:
 
@@ -204,14 +243,23 @@ Follow `REVIEWING.md` exactly. Key constraints:
 - Never demand a new dataset/experiment that the paper could not reasonably run
   in a rebuttal; ask for clarifications or bounded additions instead.
 
-### 6.4 Rebuttal
+### 6.7 Acceptance assessment
+
+1. Fill `templates/acceptance.json`: readiness (5 dims), venue fit, risks with
+   mitigations, decision.
+2. Run `scripts/score_acceptance.py`; read the band and top risks.
+3. Pre-mortem: write the 3 most likely rejection sentences and the evidence that
+   answers each (`guides/acceptance.md` §7).
+4. If band=weak or a BLOCKER is unresolved: revise or change venue; do not submit.
+
+### 6.8 Rebuttal
 
 `guides/rebuttal.md`: classify each point (factual error / scope disagreement /
 missing experiment / misunderstanding), answer with evidence, concede what is
 true, never argue with a correct criticism, never introduce a new number that is
 not in the artifact.
 
-### 6.5 Camera-ready
+### 6.9 Camera-ready
 
 Apply the correction policy: fix errors, keep headline numbers unless the fix
 changes them (then update everywhere and note it), re-run all gates, rebuild,
@@ -260,8 +308,8 @@ packaging (`check_anonymity.py`).
 Every Papercraft response ends with:
 
 ```
-MODE: <intake|write|numbers|figures|citations|audit|review|rebut|camera-ready|conference>
-GATES: G0 <PASS/FAIL/NA> · G1 ... · G8 ...
+MODE: <intake|survey|feasibility|design|write|numbers|figures|citations|audit|review|acceptance|rebut|camera-ready|conference>
+GATES: G0 <PASS/FAIL/NA> · G1 ... · G11 ...
 BLOCKERS: <n>
 NEXT: <one action>
 ```
@@ -279,13 +327,20 @@ SKILL.md                     this file
 WRITING.md                   writing playbook (standalone)
 REVIEWING.md                 reviewing playbook (standalone)
 conferences/                 venue profiles + schema
+guides/literature.md         survey protocol, screening, closest-work delta
+guides/feasibility.md        go/no-go, resources, MPU, novelty risk
+guides/experiments.md        hypotheses, controls, power, leakage, registry
 guides/evidence.md           claim ledger, numbers, statuses
 guides/citations.md          citation verification
+guides/math.md               notation, derivation checklist, numeric checks
+guides/repro.md              run registry, cache vs run, artifact
+guides/acceptance.md         readiness, venue fit, reviewer risk, decision
 guides/harness.md            DSH tool rules in depth
 guides/failure-modes.md      failure taxonomy + detection
 guides/rebuttal.md           rebuttal / camera-ready
 templates/                   CSV/MD/JSON state files
-scripts/                     checkers + build/audit
+scripts/                     checkers + build/audit + scoring
+install.py                   multi-agent installer (native dirs + pointers)
 examples/config.example.yaml minimal config
 ```
 

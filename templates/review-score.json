@@ -1,0 +1,18 @@
+{
+  "paper_id": "submission-000",
+  "reviewer": "R1",
+  "summary": "The paper proposes <object> for <problem>, evaluated on <splits>.",
+  "claims": [
+    {"id": "C1", "status": "SUPPORTED", "evidence": "Table 2"},
+    {"id": "C2", "status": "WEAK", "evidence": "Table 3, n=16"}
+  ],
+  "strengths": ["Clear object definition (Section 3)", "Reproducible artifact"],
+  "weaknesses": [
+    {"severity": "MAJOR", "location": "Section 5", "issue": "Ablation is a text substitution, not a module drop", "evidence": "code link/line"},
+    {"severity": "MINOR", "location": "Figure 2", "issue": "Caption does not state n", "evidence": "caption"}
+  ],
+  "scores": {"soundness": 3, "novelty": 3, "significance": 3, "clarity": 3, "reproducibility": 2},
+  "overall": 6,
+  "confidence": 4,
+  "recommendation": "weak_accept"
+}

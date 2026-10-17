@@ -1,0 +1,6 @@
+key,title,year,venue,role,closest,verified,claim_supported,gap,notes
+guo2013pythontutor,"Online Python Tutor: Embeddable Web-Based Program Visualization for CS Education",2013,SIGCSE,foundation,no,VERIFIED,C1,"shows state, no grounded rationale","visualizer baseline"
+lekshmi2024line,"Explaining Code Examples in Introductory Programming Courses: LLM vs Humans",2024,AI4E Workshop,closest,yes,PARTIAL,C1;C2,"no steering, no execution trace","line-level explanations"
+wang2025traver,"Training Turn-by-Turn Verifiers for Dialogue Tutoring Agents",2025,ACL Findings,closest,yes,VERIFIED,C2,"dialogue verifier, not frame-level trace","closest tutoring protocol"
+macina2023mathdial,"MathDial: A Dialogue Tutoring Dataset With Rich Pedagogical Properties Grounded in Math Reasoning Problems",2023,EMNLP Findings,closest,yes,VERIFIED,C2,"dialogue-level, no executable state","tutoring dialogue dataset"
+lightman2023letsverify,"Let's Verify Step by Step",2023,ICLR,foundation,no,VERIFIED,C3,"step verification for math, not tutoring traces","process supervision"

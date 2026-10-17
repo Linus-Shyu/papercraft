@@ -32,6 +32,27 @@ Papercraft is a set of **contracts and checkers** for exactly these failures.
 
 ---
 
+## Full research lifecycle
+
+| Stage | Mode | Playbook | Gate |
+|---|---|---|---|
+| Survey / novelty | `survey` | `guides/literature.md` | G3b |
+| Feasibility / go-no-go | `feasibility` | `guides/feasibility.md` | G0 |
+| Experiment design | `design` | `guides/experiments.md` | G2, G8 |
+| Writing | `write` | `WRITING.md` | G1–G4 |
+| Math audit | `math` | `guides/math.md` | G7 |
+| Did the code run? | `repro` | `guides/repro.md` | G8 |
+| Paper check | `audit` | `scripts/audit.sh` | G2–G8 |
+| Review / scoring | `review` | `REVIEWING.md` | G9 |
+| Acceptance risk | `acceptance` | `guides/acceptance.md` | G10 |
+| Rebuttal | `rebut` | `guides/rebuttal.md` | — |
+| Camera-ready | `camera-ready` | `templates/camera-ready-checklist.md` | G11 |
+
+`audit.sh` is the mechanical pass; the modes are the thinking passes. Run the
+mechanical gates first, then the human/agent judgments.
+
+---
+
 ## Install (all agents / IDEs)
 
 ```bash
@@ -90,6 +111,7 @@ paper=/path/to/paper
 mkdir -p "$paper/paper_state"
 cp examples/numbers.example.json "$paper/paper_state/numbers.json"  # edit for your numbers
 bash scripts/audit.sh "$paper" "$paper/paper_state"
+# add --with-repro to actually execute the repro manifest
 ```
 
 Output: one line per gate (`G2` numbers, `G3` citations, `G4` floats,
@@ -132,13 +154,19 @@ Do not apply any page limit from memory.
 | `WRITING.md` | Section-by-section writing playbook |
 | `REVIEWING.md` | Adversarial review + scoring rubric |
 | `conferences/` | 10 venue profiles + schema + index |
+| `guides/literature.md` | Survey protocol, screening, closest-work delta |
+| `guides/feasibility.md` | Go/no-go, resources, MPU, novelty risk |
+| `guides/experiments.md` | Hypotheses, controls, power, leakage, registry |
 | `guides/evidence.md` | Claim ledger, numbers, statuses |
 | `guides/citations.md` | Citation verification and BibTeX hygiene |
+| `guides/math.md` | Notation, derivation checklist, numeric checks |
+| `guides/repro.md` | Run registry, cache vs run, artifact |
+| `guides/acceptance.md` | Readiness, venue fit, reviewer risk, decision |
 | `guides/harness.md` | Tool-by-tool operating rules |
 | `guides/failure-modes.md` | Failure taxonomy with detectors |
 | `guides/rebuttal.md` | Rebuttal and camera-ready corrections |
 | `templates/` | Ledgers, registries, numbers, review report, checklist |
-| `scripts/` | `check_numbers`, `check_citations`, `check_floats`, `check_anonymity`, `check_conference`, `build`, `audit` |
+| `scripts/` | `check_numbers`, `check_citations`, `check_literature`, `check_floats`, `check_math`, `check_repro`, `check_anonymity`, `check_conference`, `score_review`, `score_acceptance`, `build`, `audit` |
 | `examples/` | Minimal config and numbers file |
 | `install.sh` / `install.py` | Multi-agent installer (native dirs + pointer files) |
 | `scripts/install_selftest.sh` | Installer round-trip test (temp project only) |

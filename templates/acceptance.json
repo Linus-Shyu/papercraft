@@ -1,0 +1,11 @@
+{
+  "venue": "AAAI",
+  "year": 2027,
+  "readiness": {"claim_evidence": 3, "novelty": 3, "rigor": 3, "clarity": 4, "reproducibility": 4},
+  "fit": 3,
+  "risks": [
+    {"id": "R1", "severity": "MAJOR", "risk": "n=16 pilot", "mitigation": "scope + 720 verifiable episodes"},
+    {"id": "R2", "severity": "MINOR", "risk": "no human study", "mitigation": "explicit non-claim"}
+  ],
+  "decision": "submit"
+}

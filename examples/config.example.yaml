@@ -14,6 +14,11 @@ state:
   experiment_registry: experiment-registry.csv
   figure_registry: figure-registry.csv
   numbers: numbers.json
+  literature: literature-matrix.csv
+  math: math.json
+  repro: repro-manifest.json
+  review: review-score.json
+  acceptance: acceptance.json
 checks:
   numbers_tolerance: 0.005
   strict_citations: true

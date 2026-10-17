@@ -1,0 +1,14 @@
+{
+  "symbols": {
+    "n": "number of episodes",
+    "T": "number of frames",
+    "K_t": "salient state keys",
+    "a_t": "rationale text"
+  },
+  "allow": ["EAR", "SC", "VGR", "SCR", "OTP", "sum", "mean", "log", "exp", "min", "max", "Pr"],
+  "numeric": [
+    {"id": "weights", "expr": "0.4 + 0.35 + 0.25", "expected": 1.0, "tolerance": 1e-9},
+    {"id": "episodes", "expr": "120 + 600", "expected": 720, "tolerance": 0},
+    {"id": "frames", "expr": "428 + 5350", "expected": 5778, "tolerance": 0}
+  ]
+}

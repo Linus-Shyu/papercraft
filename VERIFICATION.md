@@ -29,6 +29,16 @@
 | `install.sh --project` → `--uninstall --project` | pointers created, user `AGENTS.md` restored |
 | `skill` load in DSH | catalog lists `papercraft`; content returned |
 
+## Chat-only bootstrap test
+
+An empty folder (`/tmp/chatmode`) was opened with a single chat prompt: "Use the
+papercraft skill... bootstrap the project yourself... stop after H1." The agent
+ran `papercraft new` itself, created `paper_state/`, wrote a full `rq.md`,
+proposed 3 falsifiable RQs, picked one, updated `plan.json` (topic done, survey
+next), and reported the H1 questions. **The user typed no commands.** The agent
+also recorded 3 carried-forward blockers (venue UNVERIFIED, survey not started,
+novelty hypothesis) instead of asserting citations or results.
+
 ## Real-paper audit
 
 On a real AAAI-style paper (outside this repository), `audit.sh` reported:

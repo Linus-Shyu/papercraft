@@ -49,11 +49,21 @@ stop condition.
 
 ## Quickstart
 
+**Chat-only (recommended).** Install once, then just talk to your editor:
+
 ```bash
 git clone https://github.com/Linus-Shyu/papercraft.git
 cd papercraft
 ./install.sh --all
+```
 
+Open an empty folder (or an existing paper repo) in your editor, mention
+`@papercraft` (or `@SKILL.md`), and paste the message from [CHAT.md](CHAT.md).
+The agent bootstraps the project; you only answer H1/H2/H3.
+
+**Terminal (optional).**
+
+```bash
 ./papercraft new --topic "How should we evaluate step-by-step LLM tutoring?" \
   --venue aaai --dir ~/papers/my-paper
 ./install.sh --project ~/papers/my-paper
@@ -62,7 +72,7 @@ cd papercraft
 Open `~/papers/my-paper` in your editor, start a new chat, and paste:
 
 ```text
-Run Papercraft Autopilot for this repo.
+Run Papercraft Autopilot for this repo (the topic is in paper_state/plan.json).
 Read /absolute/path/to/papercraft/AUTOPILOT.md and follow it.
 I only care about the topic; ask me at most 3 questions.
 Do not fabricate results or citations. Stop at H1, H2, H3.
@@ -185,6 +195,7 @@ template, updates the project state, and writes `RESUBMISSION.md`.
 | File | What it covers |
 |---|---|
 | [START_HERE.md](START_HERE.md) | 3-step quickstart |
+| [CHAT.md](CHAT.md) | chat-only UX: open a folder, mention the skill, paste one message |
 | [AUTOPILOT.md](AUTOPILOT.md) | full pipeline, prompts, checkpoints, stop conditions |
 | [EDITORS.md](EDITORS.md) | per-editor activation and troubleshooting |
 | [WRITING.md](WRITING.md) | section-by-section writing playbook |
@@ -200,6 +211,7 @@ template, updates the project state, and writes `RESUBMISSION.md`.
 ```text
 SKILL.md              skill contract: modes, prime directive, gates
 START_HERE.md         user quickstart
+CHAT.md               chat-only UX (no terminal)
 AUTOPILOT.md          end-to-end runbook
 EDITORS.md            per-editor activation
 WRITING.md            writing playbook

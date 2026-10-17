@@ -8,6 +8,16 @@
 
 ---
 
+## 0. Chat-only path (no terminal)
+
+Open the paper folder, mention the skill, paste the message in `CHAT.md` §3.
+The agent bootstraps the project itself; you only answer H1/H2/H3.
+
+If the editor has no file/terminal tools, paste `SKILL.md` + `AUTOPILOT.md` into
+the chat and require the agent to mark `G2/G6/G8` as `SKIPPED (no terminal)`.
+
+---
+
 ## 1. What to install
 
 ```bash

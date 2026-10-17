@@ -8,7 +8,7 @@ description: >-
   figures/tables, adversarial reviewing, and per-conference profiles (AAAI,
   NeurIPS, ICML, ICLR, ACL, EMNLP, CVPR, KDD, CHI, TMLR).
 license: MIT
-version: 3.3.0
+version: 3.4.0
 ---
 
 # Papercraft — Evidence-First Paper Production & Review
@@ -58,13 +58,12 @@ If the user gives only a topic/question, run `AUTOPILOT.md`:
 - never fabricate an experiment, number, or citation;
 - if the MPU cannot be run, deliver a **plan + negative result**, not a paper.
 
-Create the project with:
-
-```bash
-./papercraft new --topic "<topic>" --venue aaai --dir <project>
-cd <project>
-python3 <papercraft>/scripts/papercraft.py next
-```
+**Bootstrap it yourself.** If the folder has no project, run
+`papercraft new --topic "<topic>" --venue <venue> --dir <folder>`; if the CLI is
+not available, create the same files from `templates/`. Do not ask the user to
+run terminal commands — their only job is H1/H2/H3. If the editor has no terminal
+or file tools, work in chat, emit files as code blocks, and mark
+`G2/G6/G8` as `SKIPPED (no terminal)`.
 
 ---
 
@@ -358,6 +357,7 @@ For rebuttals, use `guides/rebuttal.md` §2.
 ```
 SKILL.md                     this file
 START_HERE.md                one-topic quickstart
+CHAT.md                      chat-only UX (no terminal)
 AUTOPILOT.md                 end-to-end runbook (stages, prompts, checkpoints)
 EDITORS.md                   per-editor activation + smoke test
 WRITING.md                   writing playbook (standalone)

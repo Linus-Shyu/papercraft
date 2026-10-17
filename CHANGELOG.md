@@ -1,5 +1,16 @@
 # Changelog
 
+## 3.4.0 — 2026-10-17
+
+Chat-only UX:
+
+- `CHAT.md`: open a folder, mention the skill, paste one message; no terminal.
+- `AUTOPILOT.md` §0b: the agent bootstraps the project itself (`papercraft new`
+  or templates); never asks the user to run commands.
+- `SKILL.md` autopilot contract updated; no-terminal mode must mark G2/G6/G8 as
+  `SKIPPED (no terminal)` instead of claiming they passed.
+- `START_HERE.md` and `EDITORS.md` point to the chat-only path.
+
 ## 3.3.0 — 2026-10-17
 
 GitHub release packaging:

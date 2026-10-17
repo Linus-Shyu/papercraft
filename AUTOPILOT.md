@@ -24,6 +24,20 @@ agent is expected to explain, not to guess silently.
 
 ---
 
+## 0b. Bootstrap (the agent does this, not the user)
+
+If the folder has no `main.tex` / `paper_state/`:
+
+1. Preferred: run
+   `papercraft new --topic "<topic>" --venue <venue> --dir <folder>`.
+2. Fallback (no CLI): create `main.tex`, `refs.bib`, `data/results/`,
+   `figures/`, and `paper_state/` with the templates from `templates/`.
+3. No terminal/file tools: work in chat, emit the files as code blocks, and mark
+   `G2/G6/G8` as `SKIPPED (no terminal)`; never claim they passed.
+
+Never ask the user to run a command they could run themselves. The user's only
+job is H1/H2/H3.
+
 ## 1. First message (the only one the user needs)
 
 The agent sends:

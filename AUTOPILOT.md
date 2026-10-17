@@ -193,6 +193,16 @@ A plan + negative result is a valid deliverable. A fabricated paper is not.
 
 ---
 
+## 5b. If the paper is rejected
+
+1. Triage the reviews (`guides/resubmission.md` §1): novelty / evidence / scope /
+   clarity / repro / theory / ethics.
+2. `papercraft recommend --dir <p> --reviews review/*.json --type <type> --scale <scale>`.
+3. Decide: fix and retry the same venue, or switch.
+4. `papercraft resubmit --dir <p> --to <venue> --url <official-kit>` (or `--archive`).
+5. Update the abstract/related work for the new audience; rerun all gates.
+6. Never resubmit the same PDF with a new template.
+
 ## 6. Human checkpoints
 
 | Checkpoint | When | What the user sees |

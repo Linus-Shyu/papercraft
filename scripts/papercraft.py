@@ -395,6 +395,205 @@ def cmd_template(args) -> int:
     return subprocess.call(cmd)
 
 
+FIT = SRC / "conferences/fit.json"
+REASON_KEYS = {
+    "novelty": ("novel", "incremental", "related work", "prior work", "position"),
+    "evidence": ("small n", "n=", "baseline", "ablation", "evidence", "significan", "variance", "seed"),
+    "scope": ("scope", "fit", "venue", "audience", "out of"),
+    "clarity": ("clarity", "writing", "unclear", "confus", "organization"),
+    "repro": ("repro", "artifact", "code", "data", "script"),
+    "theory": ("math", "proof", "theorem", "derivation", "symbol"),
+    "ethics": ("ethic", "consent", "irb", "privacy"),
+}
+
+
+def load_fit() -> dict:
+    return json.loads(FIT.read_text(encoding="utf-8"))
+
+
+def infer_reasons(paths: list[str]) -> set[str]:
+    reasons: set[str] = set()
+    for path in paths or []:
+        p = Path(path)
+        if not p.exists() or p.suffix.lower() != ".json":
+            continue
+        try:
+            data = json.loads(p.read_text(encoding="utf-8"))
+        except Exception:  # noqa: BLE001
+            continue
+        for w in data.get("weaknesses", []) or []:
+            text = " ".join(str(w.get(k, "")) for k in ("issue", "location", "evidence")).lower()
+            for key, words in REASON_KEYS.items():
+                if any(x in text for x in words):
+                    reasons.add(key)
+    return reasons
+
+
+def cmd_recommend(args) -> int:
+    root = Path(args.dir).expanduser().resolve()
+    plan = load_plan(root)
+    fit = load_fit()
+    old = plan.get("venue")
+    topic = (plan.get("topic") or "").lower()
+    reasons = {r.strip() for r in (args.reasons or "").split(",") if r.strip()}
+    reasons |= infer_reasons(args.reviews or [])
+
+    rows = []
+    for vid, e in fit.items():
+        if vid.startswith("_") or vid == old:
+            continue
+        score, why = 0, []
+        topic_hit = False
+        for t in e.get("topics", []):
+            if t and t in topic:
+                score += 2
+                topic_hit = True
+                why.append(f"topic:{t}")
+        type_hit = args.type in e.get("types", [])
+        if type_hit:
+            score += 3
+            why.append(f"type:{args.type}")
+        if not topic_hit and not type_hit and vid != "tmlr":
+            continue
+        if args.scale in e.get("scale", []):
+            score += 1
+            why.append(f"scale:{args.scale}")
+        for r in sorted(reasons):
+            if r in e.get("focus", []):
+                score += 2
+                why.append(f"review:{r}")
+        rows.append((score, vid, why, e.get("notes", "")))
+    rows.sort(key=lambda x: (-x[0], x[1]))
+
+    print(f"topic: {plan.get('topic')}")
+    print(f"current venue: {old} (excluded)")
+    print(f"type={args.type} scale={args.scale} reasons={','.join(sorted(reasons)) or '-'}")
+    print("\nShortlist (heuristic; verify every CFP; not an acceptance prediction):")
+    for i, (score, vid, why, notes) in enumerate(rows[: args.top], 1):
+        print(f"{i}. {vid:8} score={score:2}  why={', '.join(why) or '-'}")
+        print(f"   template: papercraft template --venue {vid} --url <official-kit>")
+        print(f"   notes: {notes}")
+    if args.json:
+        print(json.dumps([{"venue": r[1], "score": r[0], "why": r[2], "notes": r[3]} for r in rows[: args.top]], indent=2))
+    return 0
+
+
+def cmd_resubmit(args) -> int:
+    root = Path(args.dir).expanduser().resolve()
+    plan = load_plan(root)
+    old = plan.get("venue")
+    new = args.to
+    if not new:
+        print("ERROR: --to <venue> required", file=sys.stderr)
+        return 2
+    if new == old:
+        print("ERROR: target venue equals current venue", file=sys.stderr)
+        return 2
+    reasons = {r.strip() for r in (args.reasons or "").split(",") if r.strip()}
+    reasons |= infer_reasons(args.reviews or [])
+
+    if args.dry_run:
+        print("DRY RUN — no files changed")
+        print(f"old: {old} -> new: {new}")
+        print(f"reasons: {', '.join(sorted(reasons)) or '-'}")
+        print("would archive: root *.sty/*.bst/*.cls + TEMPLATE.md")
+        print(f"would fetch: papercraft template --venue {new} [--url/--archive]")
+        print("would update: paper_state/conference.yaml, plan.json, RESUBMISSION.md")
+        return 0
+
+    tmp = Path(tempfile.mkdtemp(prefix="papercraft-resubmit-"))
+    try:
+        stage = tmp / "proj"
+        (stage / "paper_state").mkdir(parents=True)
+        root_cache = root / "paper_state/template-source.json"
+        if root_cache.exists():
+            shutil.copy2(root_cache, stage / "paper_state/template-source.json")
+        cmd = ["python3", str(SRC / "scripts/fetch_template.py"), "--venue", new, "--dir", str(stage)]
+        if args.url:
+            cmd += ["--url", args.url]
+        if args.archive:
+            cmd += ["--archive", args.archive]
+        if subprocess.call(cmd) != 0:
+            print("template fetch failed; old template left untouched", file=sys.stderr)
+            return 1
+
+        ts = dt.datetime.now().strftime("%Y%m%d-%H%M%S")
+        arch = root / "template" / f"previous-{old}-{ts}"
+        arch.mkdir(parents=True, exist_ok=True)
+        for suffix in (".sty", ".bst", ".cls"):
+            for p in root.glob(f"*{suffix}"):
+                shutil.move(str(p), str(arch / p.name))
+        if (root / "TEMPLATE.md").exists():
+            shutil.move(str(root / "TEMPLATE.md"), str(arch / "TEMPLATE.md"))
+
+        copied = []
+        for suffix in (".sty", ".bst", ".cls"):
+            for p in stage.glob(f"*{suffix}"):
+                shutil.copy2(p, root / p.name)
+                copied.append(p.name)
+        if (stage / "TEMPLATE.md").exists():
+            shutil.copy2(stage / "TEMPLATE.md", root / "TEMPLATE.md")
+        if (stage / "template").exists():
+            shutil.copytree(stage / "template", root / "template" / new, dirs_exist_ok=True)
+        cache_src = stage / "paper_state/template-source.json"
+        if cache_src.exists():
+            cache_dst = root / "paper_state/template-source.json"
+            try:
+                old_cache = json.loads(cache_dst.read_text(encoding="utf-8")) if cache_dst.exists() else {}
+            except Exception:  # noqa: BLE001
+                old_cache = {}
+            try:
+                new_cache = json.loads(cache_src.read_text(encoding="utf-8"))
+            except Exception:  # noqa: BLE001
+                new_cache = {}
+            old_cache.update(new_cache)
+            cache_dst.write_text(json.dumps(old_cache, indent=2) + "\n", encoding="utf-8")
+
+        (root / "paper_state/conference.yaml").write_text(
+            f"id: {new}\nyear: null\nsource_url: VERIFY\nverified_on: null\n"
+            f"status: UNVERIFIED\nprevious: {old}\nswitched_at: {now()}\n",
+            encoding="utf-8",
+        )
+        plan["venue"] = new
+        for st in plan.get("stages", []):
+            if st["id"] in ("review", "acceptance", "package"):
+                st["status"] = "pending"
+                st["note"] = f"resubmitted from {old}"
+        plan.setdefault("log", []).append(
+            {"ts": now(), "stage": "resubmit", "status": "done", "note": f"{old} -> {new}"}
+        )
+        plan["current"] = next(
+            (st["id"] for st in plan.get("stages", []) if st["status"] in ("pending", "in_progress", "blocked")),
+            "done",
+        )
+        save_plan(root, plan)
+
+        fix = "\n".join(f"- {r}: address in abstract/intro/results, or scope it explicitly" for r in sorted(reasons)) or "- no structured reasons supplied"
+        (root / "RESUBMISSION.md").write_text(
+            f"# Resubmission: {old} -> {new}\n\n"
+            f"- switched: {now()}\n"
+            f"- reasons: {', '.join(sorted(reasons)) or 'not specified'}\n"
+            f"- old template archived: `template/previous-{old}-{ts}/`\n"
+            f"- new style files: {', '.join(copied) or 'see TEMPLATE.md'}\n"
+            f"- new source: see `TEMPLATE.md` (verify the CFP)\n\n"
+            f"## What to fix\n\n{fix}\n\n"
+            "## Checklist\n\n"
+            "- [ ] Verify the new CFP/page limit/anonymity/checklist\n"
+            "- [ ] Update abstract + related work framing\n"
+            "- [ ] Rerun experiments or scope the claim\n"
+            "- [ ] `papercraft check --with-repro` green\n"
+            "- [ ] New `TEMPLATE.md` source_verified=true or manually verified\n",
+            encoding="utf-8",
+        )
+        print(f"resubmitted: {old} -> {new}")
+        print(f"template archived: {arch}")
+        print(f"new style files: {', '.join(copied) or '(none copied)'}")
+        print(f"memo: {root / 'RESUBMISSION.md'}")
+        return 0
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
 def cmd_venues(_args) -> int:
     for p in sorted((SRC / "conferences").glob("*.md")):
         if p.name.startswith("_"):
@@ -453,6 +652,26 @@ def main() -> int:
     p.add_argument("--artifact", action="store_true")
     p.add_argument("--skip-check", action="store_true", help="draft only; do not run gates")
     p.set_defaults(fn=cmd_package)
+
+    p = sub.add_parser("recommend")
+    p.add_argument("--dir", default=".")
+    p.add_argument("--type", default="evaluation")
+    p.add_argument("--scale", default="small")
+    p.add_argument("--reasons", default="")
+    p.add_argument("--reviews", nargs="*", default=[])
+    p.add_argument("--top", type=int, default=3)
+    p.add_argument("--json", action="store_true")
+    p.set_defaults(fn=cmd_recommend)
+
+    p = sub.add_parser("resubmit")
+    p.add_argument("--dir", default=".")
+    p.add_argument("--to", required=True)
+    p.add_argument("--url", default=None)
+    p.add_argument("--archive", default=None)
+    p.add_argument("--reasons", default="")
+    p.add_argument("--reviews", nargs="*", default=[])
+    p.add_argument("--dry-run", action="store_true")
+    p.set_defaults(fn=cmd_resubmit)
 
     p = sub.add_parser("template")
     p.add_argument("--venue", default=None)

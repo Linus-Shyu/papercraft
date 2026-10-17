@@ -1,0 +1,73 @@
+{
+  "_comment": "Heuristic fit signals for resubmission shortlists. NOT deadlines, NOT acceptance predictions. Verify every CFP before acting.",
+  "aaai": {
+    "topics": ["ai", "ml", "vision", "nlp", "hci", "education", "evaluation", "agents"],
+    "types": ["method", "benchmark", "evaluation", "analysis", "application"],
+    "scale": ["small", "medium"],
+    "focus": ["novelty", "clarity", "repro"],
+    "notes": "Generalist audience; teach the problem on page 1; checklist matters."
+  },
+  "neurips": {
+    "topics": ["ml", "vision", "nlp", "theory", "benchmark", "agents"],
+    "types": ["method", "benchmark", "analysis", "theory"],
+    "scale": ["medium", "large"],
+    "focus": ["novelty", "evidence", "repro"],
+    "notes": "Strong empirical rigor expected; checklist and broader impact."
+  },
+  "icml": {
+    "topics": ["ml", "theory", "optimization", "benchmark"],
+    "types": ["method", "theory", "analysis"],
+    "scale": ["medium", "large"],
+    "focus": ["novelty", "theory", "evidence"],
+    "notes": "Technical depth; controlled experiments; reproducibility statement."
+  },
+  "iclr": {
+    "topics": ["ml", "representation", "benchmark", "analysis", "agents"],
+    "types": ["method", "benchmark", "analysis"],
+    "scale": ["small", "medium", "large"],
+    "focus": ["novelty", "clarity", "repro"],
+    "notes": "OpenReview; public response; analysis and failure modes valued."
+  },
+  "acl": {
+    "topics": ["nlp", "dialogue", "education", "evaluation", "language"],
+    "types": ["method", "benchmark", "evaluation", "analysis"],
+    "scale": ["small", "medium", "large"],
+    "focus": ["novelty", "evidence", "clarity"],
+    "notes": "Mandatory limitations; responsible NLP checklist; ARR."
+  },
+  "emnlp": {
+    "topics": ["nlp", "dialogue", "education", "evaluation", "empirical"],
+    "types": ["empirical", "benchmark", "evaluation", "analysis"],
+    "scale": ["small", "medium", "large"],
+    "focus": ["evidence", "clarity", "repro"],
+    "notes": "Empirical emphasis; variance/seeds; limitations; ARR."
+  },
+  "cvpr": {
+    "topics": ["vision", "multimodal", "benchmark", "image", "video"],
+    "types": ["method", "benchmark"],
+    "scale": ["medium", "large"],
+    "focus": ["novelty", "evidence", "visuals"],
+    "notes": "Benchmark gains + ablations + readable figures; supplementary."
+  },
+  "kdd": {
+    "topics": ["data mining", "applied", "deployment", "benchmark", "education"],
+    "types": ["application", "method", "benchmark"],
+    "scale": ["medium", "large"],
+    "focus": ["evidence", "repro", "impact"],
+    "notes": "Applied impact and scalability; reproducibility track."
+  },
+  "chi": {
+    "topics": ["hci", "education", "human study", "interaction", "design"],
+    "types": ["human", "application", "artifact"],
+    "scale": ["small", "medium"],
+    "focus": ["clarity", "ethics", "novelty"],
+    "notes": "Contribution type matters; study design and ethics."
+  },
+  "tmlr": {
+    "topics": ["ml", "nlp", "vision", "benchmark", "analysis", "evaluation"],
+    "types": ["method", "analysis", "benchmark", "evaluation"],
+    "scale": ["small", "medium", "large"],
+    "focus": ["correctness", "repro", "clarity"],
+    "notes": "Journal, rolling; correctness/reproducibility over novelty; certification review."
+  }
+}

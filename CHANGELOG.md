@@ -1,5 +1,21 @@
 # Changelog
 
+## 3.2.0 — 2026-10-17
+
+Rejection → resubmission:
+
+- `conferences/fit.json`: heuristic venue-fit signals (topics, contribution
+  types, scale, review focus). No deadlines, no acceptance predictions.
+- `papercraft recommend`: shortlist from the paper topic + review categories.
+- `papercraft resubmit --to <venue>`: stages the new template first, archives the
+  old style files/TEMPLATE.md, copies the new ones, updates
+  `conference.yaml`/`plan.json`, writes `RESUBMISSION.md`. Old template is left
+  untouched if the fetch fails; `--dry-run` changes nothing.
+- `guides/resubmission.md`: triage, fix-vs-switch, shortlist, template switch,
+  policies, memo.
+- `scripts/resubmit_selftest.sh` covers dry-run, switch, archive, and failure
+  safety.
+
 ## 3.1.0 — 2026-10-17
 
 Official template fetching:

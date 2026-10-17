@@ -75,6 +75,7 @@ See `START_HERE.md` for the 3-step version, and `EDITORS.md` for per-editor acti
 | Review / scoring | `review` | `REVIEWING.md` | G9 |
 | Acceptance risk | `acceptance` | `guides/acceptance.md` | G10 |
 | Rebuttal | `rebut` | `guides/rebuttal.md` | — |
+| Rejection → resubmit | `resubmit` | `guides/resubmission.md` | G6 |
 | Camera-ready | `camera-ready` | `templates/camera-ready-checklist.md` | G11 |
 
 `audit.sh` is the mechanical pass; the modes are the thinking passes. Run the
@@ -183,7 +184,7 @@ Do not apply any page limit from memory.
 | `START_HERE.md` | One-topic quickstart (user-facing) |
 | `AUTOPILOT.md` | End-to-end stages, prompts, checkpoints |
 | `EDITORS.md` | Per-editor activation, smoke test, troubleshooting |
-| `papercraft` | CLI: `new`, `status`, `next`, `mark`, `template`, `check`, `package` |
+| `papercraft` | CLI: `new`, `status`, `next`, `mark`, `template`, `recommend`, `resubmit`, `check`, `package` |
 | `WRITING.md` | Section-by-section writing playbook |
 | `REVIEWING.md` | Adversarial review + scoring rubric |
 | `conferences/` | 10 venue profiles + schema + index |
@@ -196,6 +197,7 @@ Do not apply any page limit from memory.
 | `guides/repro.md` | Run registry, cache vs run, artifact |
 | `guides/acceptance.md` | Readiness, venue fit, reviewer risk, decision |
 | `guides/templates.md` | Fetch/verify/provenance for official templates |
+| `guides/resubmission.md` | Rejection triage, venue shortlist, template switch |
 | `guides/harness.md` | Tool-by-tool operating rules |
 | `guides/failure-modes.md` | Failure taxonomy with detectors |
 | `guides/rebuttal.md` | Rebuttal and camera-ready corrections |

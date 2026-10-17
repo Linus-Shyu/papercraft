@@ -7,6 +7,7 @@ test:
 	bash scripts/install_selftest.sh
 	bash scripts/autopilot_selftest.sh
 	bash scripts/template_selftest.sh
+	bash scripts/resubmit_selftest.sh
 
 lint:
 	python3 -m py_compile scripts/*.py

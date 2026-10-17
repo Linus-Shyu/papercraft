@@ -8,7 +8,7 @@ description: >-
   figures/tables, adversarial reviewing, and per-conference profiles (AAAI,
   NeurIPS, ICML, ICLR, ACL, EMNLP, CVPR, KDD, CHI, TMLR).
 license: MIT
-version: 3.1.0
+version: 3.2.0
 ---
 
 # Papercraft — Evidence-First Paper Production & Review
@@ -104,6 +104,7 @@ Read the user's request, pick **one** primary mode, and state it.
 | `review` | "Review this paper" | `REVIEWING.md` | Structured review + score |
 | `rebut` | Reviews arrived | `guides/rebuttal.md` | Point-by-point response |
 | `camera-ready` | Accepted | `guides/rebuttal.md` §4, `templates/camera-ready-checklist.md` | Corrected PDF + diff log |
+| `resubmit` | Rejected; choose next venue | `guides/resubmission.md` | Shortlist + template switch + memo |
 | `conference` | "What does X require?" | `conferences/_schema.md` + profile | Verified rule sheet |
 
 If a request mixes modes (e.g., "write and check"), run `write` → `audit` and
@@ -274,6 +275,16 @@ Follow `REVIEWING.md` exactly. Key constraints:
    answers each (`guides/acceptance.md` §7).
 4. If band=weak or a BLOCKER is unresolved: revise or change venue; do not submit.
 
+### 6.7b Resubmission (after a rejection)
+
+1. Triage reviews into categories (novelty/evidence/scope/clarity/repro/theory/
+   ethics) with `guides/resubmission.md` §1.
+2. Run `papercraft recommend --dir <p> --reviews review/*.json --type ... --scale ...`.
+3. Decide: fix and resubmit to the same venue, or switch.
+4. Switch with `papercraft resubmit --to <venue> --url/--archive ...`.
+5. Update the paper for the new audience; rerun `papercraft check --with-repro`.
+6. Do not resubmit the same PDF with a new template.
+
 ### 6.8 Rebuttal
 
 `guides/rebuttal.md`: classify each point (factual error / scope disagreement /
@@ -330,7 +341,7 @@ packaging (`check_anonymity.py`).
 Every Papercraft response ends with:
 
 ```
-MODE: <autopilot|intake|survey|feasibility|design|write|numbers|figures|citations|audit|review|acceptance|rebut|camera-ready|conference>
+MODE: <autopilot|intake|survey|feasibility|design|write|numbers|figures|citations|audit|review|acceptance|resubmit|rebut|camera-ready|conference>
 GATES: G0 <PASS/FAIL/NA> · G1 ... · G11 ...
 BLOCKERS: <n>
 NEXT: <one action>
@@ -351,7 +362,7 @@ AUTOPILOT.md                 end-to-end runbook (stages, prompts, checkpoints)
 EDITORS.md                   per-editor activation + smoke test
 WRITING.md                   writing playbook (standalone)
 REVIEWING.md                 reviewing playbook (standalone)
-conferences/                 venue profiles + schema
+conferences/                 venue profiles + schema + templates/fit metadata
 guides/literature.md         survey protocol, screening, closest-work delta
 guides/feasibility.md        go/no-go, resources, MPU, novelty risk
 guides/experiments.md        hypotheses, controls, power, leakage, registry
@@ -361,13 +372,14 @@ guides/math.md               notation, derivation checklist, numeric checks
 guides/repro.md              run registry, cache vs run, artifact
 guides/acceptance.md         readiness, venue fit, reviewer risk, decision
 guides/templates.md          fetch/verify official templates + provenance
+guides/resubmission.md       rejection triage, venue shortlist, template switch
 guides/harness.md            DSH tool rules in depth
 guides/failure-modes.md      failure taxonomy + detection
 guides/rebuttal.md           rebuttal / camera-ready
 templates/                   CSV/MD/JSON state files
 scripts/                     checkers + build/audit + scoring
 install.py                   multi-agent installer (native dirs + pointers)
-papercraft                   CLI wrapper (new/status/next/mark/template/check/package)
+papercraft                   CLI wrapper (new/status/next/mark/template/recommend/resubmit/check/package)
 examples/config.example.yaml minimal config
 ```
 

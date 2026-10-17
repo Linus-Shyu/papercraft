@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.0.1 — 2026-10-17
+
+- `EDITORS.md`: per-editor activation matrix (DSH, Claude Code, Cursor, Codex,
+  Gemini, Copilot, Cline, Windsurf, Continue, Aider, Zed), smoke test,
+  troubleshooting, and "installation is not activation".
+- Cursor project rule now uses `alwaysApply: true` (project install only), so
+  the skill is in context without an explicit `@` mention.
+
 ## 3.0.0 — 2026-10-17
 
 One-topic autopilot:

@@ -89,7 +89,7 @@ Standalone playbooks: `{writing}` (writing) and `{reviewing}` (reviewing).
             "---\n"
             "description: Papercraft evidence-first paper writing and review\n"
             'globs: ["**/*.tex", "**/*.bib", "**/*.md"]\n'
-            "alwaysApply: false\n"
+            "alwaysApply: true\n"
             "---\n"
             f"{HEADER}\n\n{core}"
         )

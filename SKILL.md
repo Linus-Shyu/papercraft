@@ -8,7 +8,7 @@ description: >-
   figures/tables, adversarial reviewing, and per-conference profiles (AAAI,
   NeurIPS, ICML, ICLR, ACL, EMNLP, CVPR, KDD, CHI, TMLR).
 license: MIT
-version: 3.0.0
+version: 3.0.1
 ---
 
 # Papercraft — Evidence-First Paper Production & Review
@@ -348,6 +348,7 @@ For rebuttals, use `guides/rebuttal.md` §2.
 SKILL.md                     this file
 START_HERE.md                one-topic quickstart
 AUTOPILOT.md                 end-to-end runbook (stages, prompts, checkpoints)
+EDITORS.md                   per-editor activation + smoke test
 WRITING.md                   writing playbook (standalone)
 REVIEWING.md                 reviewing playbook (standalone)
 conferences/                 venue profiles + schema

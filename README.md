@@ -56,7 +56,7 @@ review → acceptance → package. The user only picks the topic (and optionally
 the venue); the agent asks at most three questions and stops at three
 checkpoints. It will **not** invent experiments, numbers, or citations.
 
-See `START_HERE.md` for the 3-step version.
+See `START_HERE.md` for the 3-step version, and `EDITORS.md` for per-editor activation (install is not the same as activation).
 
 ---
 
@@ -181,6 +181,7 @@ Do not apply any page limit from memory.
 | `SKILL.md` | Router: modes, gates, prime directive, Harness rules |
 | `START_HERE.md` | One-topic quickstart (user-facing) |
 | `AUTOPILOT.md` | End-to-end stages, prompts, checkpoints |
+| `EDITORS.md` | Per-editor activation, smoke test, troubleshooting |
 | `papercraft` | CLI: `new`, `status`, `next`, `mark`, `check`, `package` |
 | `WRITING.md` | Section-by-section writing playbook |
 | `REVIEWING.md` | Adversarial review + scoring rubric |

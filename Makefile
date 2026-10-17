@@ -2,6 +2,7 @@
 
 test:
 	bash scripts/smoke_test.sh
+	bash scripts/selftest.sh
 
 lint:
 	python3 -m py_compile scripts/*.py
@@ -12,3 +13,6 @@ install:
 
 audit-mini:
 	bash scripts/audit.sh examples/mini-paper examples/mini-paper/paper_state
+
+selftest:
+	bash scripts/selftest.sh

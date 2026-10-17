@@ -78,7 +78,10 @@ def main() -> int:
     args = ap.parse_args()
 
     root = Path(args.root).resolve()
-    tex = Path(args.tex) if Path(args.tex).is_absolute() else root / args.tex
+    tex = Path(args.tex)
+    if not tex.is_absolute():
+        cand = (Path.cwd() / tex)
+        tex = cand if cand.exists() else (root / tex)
     if not tex.exists():
         print(f"IO ERROR: missing {tex}", file=sys.stderr)
         return 2

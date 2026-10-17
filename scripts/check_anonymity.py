@@ -78,7 +78,13 @@ def main() -> int:
 
     files = []
     if args.tex:
-        files = [Path(x) if Path(x).is_absolute() else root / x for x in args.tex]
+        files = []
+        for x in args.tex:
+            q = Path(x)
+            if not q.is_absolute():
+                cand = Path.cwd() / q
+                q = cand if cand.exists() else (root / q)
+            files.append(q)
     else:
         # Prefer the manuscript; scanning templates/tmp produces false positives.
         preferred = [root / "main.tex", root / "supplement.tex"]

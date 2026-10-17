@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.1 — 2026-10-17
+
+- Fix relative-path resolution in `check_floats.py` and `check_anonymity.py`
+  (`--tex` now resolves from cwd first, then `--root`).
+- Add `scripts/selftest.sh`: negative tests for every checker (numbers,
+  citations, anonymity, floats, conference strict) plus a positive profile.
+- `make test` now runs the smoke test and the self-tests.
+- No external behavior or rule changes.
+
 ## 1.0.0 — 2026-10-17
 
 Initial release.

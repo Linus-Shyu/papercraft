@@ -57,6 +57,9 @@ cat > "${TMP}/float/main.tex" <<'TEX'
 \begin{figure}\caption{x}\label{fig:orphan}\end{figure}\end{document}
 TEX
 expect 1 python3 "${HERE}/check_floats.py" --tex "${TMP}/float/main.tex" --root "${TMP}/float"
+# relative --tex with --root must resolve from cwd first (v1.0.1 regression)
+( cd "${TMP}" && expect 1 python3 "${HERE}/check_floats.py" --root float --tex float/main.tex )
+( cd "${TMP}" && expect 1 python3 "${HERE}/check_anonymity.py" --root anon --tex anon/main.tex )
 
 # conference: unverified profile must fail strict; fully filled must pass
 cat > "${TMP}/conf/p.md" <<'MD'

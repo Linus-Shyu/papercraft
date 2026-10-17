@@ -1,4 +1,11 @@
-.PHONY: test lint install audit-mini
+.PHONY: test test-fast lint install audit-mini
+
+test-fast:
+	bash scripts/selftest.sh
+	bash scripts/selftest_extended.sh
+	bash scripts/install_selftest.sh
+	bash scripts/template_selftest.sh
+	bash scripts/resubmit_selftest.sh
 
 test:
 	bash scripts/smoke_test.sh

@@ -1,0 +1,41 @@
+name: Feature request
+description: Suggest a new checker, venue profile, or workflow.
+title: "[feature] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What failure or friction should this address?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What should Papercraft do? If it is a venue profile, include the CFP URL.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - checker / gate
+        - conference profile
+        - template fetching
+        - writing / reviewing guide
+        - autopilot / CLI
+        - docs
+    validations:
+      required: true
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Design constraints
+      options:
+        - label: The proposal does not encourage fabricating results or citations.
+          required: true
+        - label: Any venue rule will be verified against the current CFP.
+          required: true

@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+title: "Papercraft: Evidence-first paper writing and review for AI agents"
+message: "If you use Papercraft in research or tooling, please cite this repository."
+type: software
+authors:
+  - name: "Papercraft contributors"
+repository-code: "https://github.com/Linus-Shyu/papercraft"
+url: "https://github.com/Linus-Shyu/papercraft"
+license: MIT
+version: 3.3.0
+date-released: 2026-10-17
+keywords:
+  - ai-agents
+  - academic-writing
+  - latex
+  - research
+  - peer-review
+  - reproducibility

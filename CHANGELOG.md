@@ -1,5 +1,20 @@
 # Changelog
 
+## 3.3.0 — 2026-10-17
+
+GitHub release packaging:
+
+- OpenAI-style `README.md` with logo, badges, quickstart, pipeline, gates,
+  editor matrix, safety limits, and citation.
+- `assets/logo.svg`, `assets/social-preview.png`.
+- `CITATION.cff`, `SECURITY.md`, `CODE_OF_CONDUCT.md`, `ROADMAP.md`,
+  `.editorconfig`, `.gitattributes`.
+- GitHub issue forms, PR template, and a CI workflow (`fast` + `full`).
+- `docs/` GitHub Pages landing page.
+- `VERIFICATION.md`: what was actually run, the A/B result, and what remains
+  unverified.
+- `make test-fast` for the subset that does not need LaTeX.
+
 ## 3.2.0 — 2026-10-17
 
 Rejection → resubmission:

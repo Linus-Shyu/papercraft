@@ -1,0 +1,48 @@
+name: Bug report
+description: Something in Papercraft does not behave as documented.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Please include the exact command and the smallest
+        reproducible project if possible.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you run, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command and output
+      description: Paste the command and the relevant output.
+      render: shell
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version / commit
+      description: "`git rev-parse --short HEAD` or the release tag."
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Python, TeX distribution, editor/agent.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I did not include secrets or private manuscript content.
+          required: true
+        - label: I searched existing issues.
+          required: true

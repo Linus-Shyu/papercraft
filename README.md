@@ -1,310 +1,268 @@
-# Papercraft
+<p align="center">
+  <img src="assets/logo.svg" width="96" alt="Papercraft logo">
+</p>
 
-**Evidence-first paper production and review for AI agents.**
+<h1 align="center">Papercraft</h1>
 
-Papercraft is a portable skill for the DeepSeek Harness (and any agent that can
-read Markdown and run Python). It turns "write me a paper" into a pipeline with
-**claims, canonical numbers, verified citations, generated floats, and blocking
-gates** — so the failure modes that plague LLM-written papers become visible
-before submission.
+<p align="center"><strong>Evidence-first paper writing and review for AI agents.</strong></p>
 
-> **No zero-error guarantee.** No prompt or skill can guarantee that an AI never
-> makes a mistake. Papercraft guarantees something more useful: mistakes become
-> **detectable, localized, and blocking**. If a number has no source, a citation
-> has no verification, or a figure has no reference, the gate fails and the paper
-> stops.
+<p align="center">
+  <a href="https://github.com/Linus-Shyu/papercraft/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/Linus-Shyu/papercraft/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+  <img alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10%2B-3776AB.svg">
+  <a href="https://github.com/Linus-Shyu/papercraft/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/Linus-Shyu/papercraft?style=social"></a>
+</p>
+
+Papercraft is a portable skill and CLI for the full research lifecycle. Give it a
+topic; it runs **survey → feasibility → experiment design → execution → writing →
+audit → review → acceptance → packaging**, with explicit checkpoints and
+fail-closed gates.
+
+It works inside DSH, Claude Code, Cursor, Codex, and any editor that can read a
+Markdown instruction file. It is not a ghostwriter: every number, citation,
+claim, and float must trace to an artifact.
+
+> **No zero-error guarantee.** No prompt or tool can guarantee that an AI never
+> makes a mistake. Papercraft makes mistakes **detectable, localized, and
+> blocking**: a number without a source, a citation without verification, or a
+> figure without a reference stops the pipeline.
 
 ---
 
-## Why
+## Why Papercraft
 
-LLM-assisted papers fail in predictable ways:
+LLM-written papers fail in predictable ways:
 
 - fabricated or mis-attributed citations;
-- numbers that drift from the code/JSON after a re-run;
+- numbers that drift from the code after a re-run;
 - figures hand-tuned to look right, then contradicting the text;
-- "ablations" that are text substitutions, not module removals;
-- orphan floats that no sentence references;
-- conference rules (page limits, anonymity, checklists) recalled from memory;
+- “ablations” that are text substitutions, not module removals;
+- floats that no sentence references;
+- conference rules (page limits, templates, anonymity, checklists) recalled from
+  memory instead of read from the CFP;
 - reviews that demand impossible experiments or cite papers that do not exist.
 
-Papercraft is a set of **contracts and checkers** for exactly these failures.
-
----
-
-## Zero-config (topic only)
-
-```bash
-./papercraft new --topic "How should we evaluate step-by-step LLM tutoring?" \
-  --venue aaai --dir ~/papers/my-paper
-cd ~/papers/my-paper
-python3 /path/to/papercraft/scripts/papercraft.py next
-```
-
-Then paste one prompt into your agent:
-
-```
-Run Papercraft Autopilot for ~/papers/my-paper.
-Read /path/to/papercraft/AUTOPILOT.md and follow it.
-I only care about the topic; ask me at most 3 questions (venue, constraints,
-must-use data/code). If I say "you decide", pick defaults and record them.
-Do not fabricate results or citations. Stop at H1, H2, H3.
-```
-
-The agent runs survey → feasibility → design → execute → write → audit →
-review → acceptance → package. The user only picks the topic (and optionally
-the venue); the agent asks at most three questions and stops at three
-checkpoints. It will **not** invent experiments, numbers, or citations.
-
-See `START_HERE.md` for the 3-step version, and `EDITORS.md` for per-editor activation (install is not the same as activation).
-
----
-
-## Full research lifecycle
-
-| Stage | Mode | Playbook | Gate |
-|---|---|---|---|
-| Survey / novelty | `survey` | `guides/literature.md` | G3b |
-| Feasibility / go-no-go | `feasibility` | `guides/feasibility.md` | G0 |
-| Experiment design | `design` | `guides/experiments.md` | G2, G8 |
-| Conference template | `template` | `guides/templates.md` | G6 |
-| Writing | `write` | `WRITING.md` | G1–G4 |
-| Math audit | `math` | `guides/math.md` | G7 |
-| Did the code run? | `repro` | `guides/repro.md` | G8 |
-| Paper check | `audit` | `scripts/audit.sh` | G2–G8 |
-| Review / scoring | `review` | `REVIEWING.md` | G9 |
-| Acceptance risk | `acceptance` | `guides/acceptance.md` | G10 |
-| Rebuttal | `rebut` | `guides/rebuttal.md` | — |
-| Rejection → resubmit | `resubmit` | `guides/resubmission.md` | G6 |
-| Camera-ready | `camera-ready` | `templates/camera-ready-checklist.md` | G11 |
-
-`audit.sh` is the mechanical pass; the modes are the thinking passes. Run the
-mechanical gates first, then the human/agent judgments.
-
----
-
-## Install (all agents / IDEs)
-
-```bash
-git clone <this-repo> papercraft && cd papercraft
-./install.sh                 # DSH only (old default)
-./install.sh --all           # native dirs for DSH, ~/.agents, Claude Code, Cursor, Codex
-./install.sh --project DIR   # project native dirs + pointer files (recommended per paper repo)
-./install.sh --list          # show the full matrix
-./install.sh --uninstall --project DIR
-```
-
-| Agent / IDE | Native skill dir (`SKILL.md`) | Project pointer |
-|---|---|---|
-| DSH | `~/.dsh/skills/papercraft` | — |
-| Shared Agent Skills | `~/.agents/skills/papercraft` | — |
-| Claude Code | `~/.claude/skills/papercraft` | `CLAUDE.md` |
-| Cursor | `~/.cursor/skills/papercraft` | `.cursor/rules/papercraft.mdc` |
-| Codex | `~/.codex/skills/papercraft` | `AGENTS.md` |
-| Gemini CLI | — | `GEMINI.md` |
-| Cline | — | `.clinerules/papercraft.md` |
-| Windsurf | — | `.windsurf/rules/papercraft.md` |
-| Continue | — | `.continue/rules/papercraft.md` |
-| GitHub Copilot | — | `.github/copilot-instructions.md` |
-| Aider | — | `CONVENTIONS.md` |
-| Zed | — | `.rules` |
-
-How it works:
-
-- **Native dirs** get a symlink to this repo (or `--copy`). The `SKILL.md`
-  frontmatter is the common Agent Skills format used by DSH/Claude/Cursor/Codex.
-- **Pointers** are short marker blocks that tell the agent to read the absolute
-  path of `SKILL.md`. They are idempotent; shared files are backed up only if
-  you already had content; `--uninstall` removes only Papercraft's block.
-- `AGENTS.md` is the universal fallback for tools without a skill loader.
-- Pointers embed an **absolute path**; re-run the installer if you move the
-  repo. Tools differ: a pointer is an instruction, not a guarantee that the
-  tool auto-loads it — check the tool's docs/UI.
-
-Restart DSH (or start a new session) so the skill catalog reloads.
-
-Verify:
-
-```bash
-python3 scripts/check_conference.py conferences/aaai.md
-./install.sh --list
-```
+Papercraft turns each failure into a gate with a checker, a ledger, or a written
+stop condition.
 
 ---
 
 ## Quickstart
 
-### Audit an existing paper
-
 ```bash
-paper=/path/to/paper
-mkdir -p "$paper/paper_state"
-cp examples/numbers.example.json "$paper/paper_state/numbers.json"  # edit for your numbers
-bash scripts/audit.sh "$paper" "$paper/paper_state"
-# add --with-repro to actually execute the repro manifest
+git clone https://github.com/Linus-Shyu/papercraft.git
+cd papercraft
+./install.sh --all
+
+./papercraft new --topic "How should we evaluate step-by-step LLM tutoring?" \
+  --venue aaai --dir ~/papers/my-paper
+./install.sh --project ~/papers/my-paper
 ```
 
-Output: one line per gate (`G2` numbers, `G3` citations, `G4` floats,
-`G5` anonymity, `G6` build). Exit code 1 if any gate fails.
+Open `~/papers/my-paper` in your editor, start a new chat, and paste:
 
-### Write a paper
-
-Ask the agent:
-
-```
-Use papercraft in write mode for <paper dir>. Target: AAAI 2027.
-Start with intake: read conferences/aaai.md, verify the CFP, fill
-paper_state/conference.yaml, and write a 5-line scope memo with non-claims.
-Do not draft prose until the claim ledger has at least 3 supported rows.
+```text
+Run Papercraft Autopilot for this repo.
+Read /absolute/path/to/papercraft/AUTOPILOT.md and follow it.
+I only care about the topic; ask me at most 3 questions.
+Do not fabricate results or citations. Stop at H1, H2, H3.
 ```
 
-### Review a paper
+You answer at most three questions (venue, constraints, must-use data/code) and
+approve three checkpoints:
 
-```
-Use papercraft in review mode on <pdf/tex>. Follow REVIEWING.md.
-Every weakness needs a location and evidence; mark UNVERIFIED if you cannot
-check a citation or artifact; score with the rubric and give confidence.
-```
+| Checkpoint | You see | You choose |
+|---|---|---|
+| **H1** | 3 falsifiable research questions + venue | one, or “you decide” |
+| **H2** | minimum publishable unit, resources, go/no-go | go / change scope / stop |
+| **H3** | PDF, simulated reviews, acceptance risk | submit / revise |
 
-### Select a conference
-
-```
-Use papercraft in conference mode for NeurIPS. Open the current CFP,
-fill the VERIFY fields in conferences/neurips.md, and record verified_on.
-Do not apply any page limit from memory.
-```
+Everything else is automated. If the work is not feasible with your resources,
+you get a **plan and a negative result**, not a fabricated paper.
 
 ---
 
-## What is inside
+## What it does
 
-| Path | Purpose |
+```mermaid
+flowchart LR
+  A[Topic] --> B[Survey]
+  B --> C[Feasibility]
+  C --> D[Experiment design]
+  D --> E[Execute]
+  E --> F[Template]
+  F --> G[Write]
+  G --> H[Audit]
+  H --> I[Review]
+  I --> J[Acceptance]
+  J --> K[Package]
+```
+
+| Stage | Output | Gate |
+|---|---|---|
+| Survey / novelty | literature matrix, closest-3, delta | G3b |
+| Feasibility | MPU, resources, go/no-go | G0 |
+| Experiment design | cards, controls, seeds, decision rules | G2/G8 |
+| Execute | commands, outputs, hashes | G8 |
+| Template | official style files + provenance | G6 |
+| Write | LaTeX draft from claims and numbers | G1–G4 |
+| Audit | all gates, blockers fixed | G2–G8 |
+| Review | 3 reviewer personas + scores | G9 |
+| Acceptance | risk memo + band | G10 |
+| Package | PDF, source zip, artifact zip | G11 |
+
+### Gates
+
+| Gate | Question | Checker |
+|---|---|---|
+| G2 | Every number traces to a source | `check_numbers.py` |
+| G3 | Every citation verifies | `check_citations.py` |
+| G3b | Survey covers the closest work | `check_literature.py` |
+| G4 | Every float is labelled and referenced | `check_floats.py` |
+| G5 | No identity/secret leak | `check_anonymity.py` |
+| G6 | Compiles, page limit respected | `build.sh` |
+| G7 | Symbols defined, delimiters balanced, arithmetic checks | `check_math.py` |
+| G8 | Code actually ran; outputs match | `check_repro.py --run` |
+| G9 | Reviews are evidence-based and consistent | `score_review.py` |
+| G10 | No unresolved blocker before submit | `score_acceptance.py` |
+
+---
+
+## Works with
+
+| Editor / agent | How it loads |
 |---|---|
-| `SKILL.md` | Router: modes, gates, prime directive, Harness rules |
-| `START_HERE.md` | One-topic quickstart (user-facing) |
-| `AUTOPILOT.md` | End-to-end stages, prompts, checkpoints |
-| `EDITORS.md` | Per-editor activation, smoke test, troubleshooting |
-| `papercraft` | CLI: `new`, `status`, `next`, `mark`, `template`, `recommend`, `resubmit`, `check`, `package` |
-| `WRITING.md` | Section-by-section writing playbook |
-| `REVIEWING.md` | Adversarial review + scoring rubric |
-| `conferences/` | 10 venue profiles + schema + index |
-| `guides/literature.md` | Survey protocol, screening, closest-work delta |
-| `guides/feasibility.md` | Go/no-go, resources, MPU, novelty risk |
-| `guides/experiments.md` | Hypotheses, controls, power, leakage, registry |
-| `guides/evidence.md` | Claim ledger, numbers, statuses |
-| `guides/citations.md` | Citation verification and BibTeX hygiene |
-| `guides/math.md` | Notation, derivation checklist, numeric checks |
-| `guides/repro.md` | Run registry, cache vs run, artifact |
-| `guides/acceptance.md` | Readiness, venue fit, reviewer risk, decision |
-| `guides/templates.md` | Fetch/verify/provenance for official templates |
-| `guides/resubmission.md` | Rejection triage, venue shortlist, template switch |
-| `guides/harness.md` | Tool-by-tool operating rules |
-| `guides/failure-modes.md` | Failure taxonomy with detectors |
-| `guides/rebuttal.md` | Rebuttal and camera-ready corrections |
-| `templates/` | Ledgers, registries, numbers, review report, checklist |
-| `scripts/` | `check_numbers`, `check_citations`, `check_literature`, `check_floats`, `check_math`, `check_repro`, `check_anonymity`, `check_conference`, `score_review`, `score_acceptance`, `fetch_template`, `build`, `audit` |
-| `examples/` | Minimal config and numbers file |
-| `install.sh` / `install.py` | Multi-agent installer (native dirs + pointer files) |
-| `scripts/install_selftest.sh` | Installer round-trip test (temp project only) |
+| DSH | `~/.dsh/skills/papercraft` (native) |
+| Claude Code | `~/.claude/skills/papercraft` + `CLAUDE.md` |
+| Cursor | `~/.cursor/skills/papercraft` + `.cursor/rules/papercraft.mdc` |
+| Codex | `~/.codex/skills/papercraft` + `AGENTS.md` |
+| Copilot / Cline / Windsurf / Continue | project rules (`--project`) |
+| Aider / Zed / Gemini CLI | `CONVENTIONS.md` / `.rules` / `GEMINI.md` |
+| Anything else | paste the absolute path to `SKILL.md` |
+
+See [EDITORS.md](EDITORS.md) for activation and a 5-minute smoke test.
 
 ---
 
-## Design principles
-
-1. **Evidence before prose.** A sentence without a ledger row is a draft TODO.
-2. **One number, one source.** Numbers live in `numbers.json`; tables/figures
-   are generated; stale values are `bad_values` that fail the checker.
-3. **Citations are `UNVERIFIED` by default.** A DOI/arXiv/ACL page must be
-   opened; "could not verify" is a valid status, "fabricated" requires a
-   contradictory source.
-4. **Floats are generated, labelled, referenced.** No hand-tuned bars; no orphan
-   figures; captions carry the message.
-5. **Conference rules are cached with an expiry.** Volatile fields are `VERIFY`;
-   a profile older than 180 days is `STALE`.
-6. **Fail closed.** A red gate stops the pipeline; it is never "fixed" by
-   wording.
-7. **Adversarial review.** The reviewer pass is separate from the author pass;
-   it must give locations and evidence, and may not invent citations.
-
----
-
-## Conference profiles
-
-Included: **AAAI, NeurIPS, ICML, ICLR, ACL, EMNLP, CVPR, KDD, CHI, TMLR**, plus
-a generic default. Every profile separates:
-
-- **Volatile layer** (page limits, template, anonymity, checklist, LLM policy,
-  supplementary, rebuttal) — YAML, marked `VERIFY`, with `verified_on`.
-- **Stable layer** (review emphasis, structure, common pitfalls).
-
-The skill will **not** apply a volatile rule until the profile is verified
-against the current CFP. This is deliberate: venue rules are the most common
-hallucination in AI-written papers.
-
-Add a venue: copy `conferences/_default.md`, fill YAML, add an alias to
-`conferences/index.yaml`, run `check_conference.py`.
-
----
-
-## Scripts
+## Install
 
 ```bash
-python3 scripts/check_numbers.py --config paper_state/numbers.json --tex main.tex --check-source
-python3 scripts/check_citations.py --tex main.tex --bib references.bib --strict
-python3 scripts/check_floats.py --tex main.tex
-python3 scripts/check_anonymity.py --root . --tex main.tex supplement.tex
-python3 scripts/check_conference.py conferences/aaai.md --strict
-bash scripts/build.sh /path/to/paper main.tex
-bash scripts/audit.sh /path/to/paper /path/to/paper/paper_state
+./install.sh --all                  # native dirs for DSH, ~/.agents, Claude, Cursor, Codex
+./install.sh --project DIR          # project dirs + pointers inside one paper repo
+./install.sh --list                 # show the matrix
+./install.sh --uninstall --project DIR
 ```
 
-All scripts are dependency-free Python 3 (plus a POSIX shell and a LaTeX
-toolchain for `build.sh`). They never write to the paper source.
-
-Smoke test (a tiny paper that should pass every gate):
-
-```bash
-make test            # or: bash scripts/smoke_test.sh
-```
-
-It compiles `examples/mini-paper`, checks numbers/citations/floats/anonymity,
-and exits 0 only if all gates pass.
+`--project` is required for editors that do not support native skills. Pointers
+are marker blocks; existing user content is backed up once, and `--uninstall`
+removes only Papercraft’s block.
 
 ---
 
-## Limits (read this)
+## Use it manually
 
-- Papercraft cannot verify that your experiments are correct; it can only check
-  that the paper matches the artifact you give it.
-- It cannot make a weak idea strong.
-- It cannot guarantee acceptance.
-- Online citation verification is a human/agent step; the scripts are
-  structural only.
-- A profile is a cache, not a CFP. If `verified_on` is missing, the rule is
-  unknown, not "probably the same as last year".
+The autopilot is optional. Every stage is also a command:
+
+```bash
+papercraft status --dir ~/papers/my-paper
+papercraft next   --dir ~/papers/my-paper
+papercraft mark survey done --note "12 rows, 3 closest"
+papercraft template --venue aaai --url https://.../aaai2027-kit.zip
+papercraft check --dir ~/papers/my-paper --with-repro
+papercraft recommend --dir ~/papers/my-paper --reviews review/*.json
+papercraft resubmit --dir ~/papers/my-paper --to acl --url https://.../acl-style.zip
+papercraft package --dir ~/papers/my-paper
+```
+
+If the paper is rejected, `recommend` produces a venue shortlist from the review
+categories, and `resubmit` archives the old style files, fetches the new
+template, updates the project state, and writes `RESUBMISSION.md`.
+
+---
+
+## Documentation
+
+| File | What it covers |
+|---|---|
+| [START_HERE.md](START_HERE.md) | 3-step quickstart |
+| [AUTOPILOT.md](AUTOPILOT.md) | full pipeline, prompts, checkpoints, stop conditions |
+| [EDITORS.md](EDITORS.md) | per-editor activation and troubleshooting |
+| [WRITING.md](WRITING.md) | section-by-section writing playbook |
+| [REVIEWING.md](REVIEWING.md) | adversarial review and scoring |
+| [guides/resubmission.md](guides/resubmission.md) | rejection triage, venue shortlist, template switch |
+| [conferences/](conferences/) | 10 venue profiles + template/fit metadata |
+| [VERIFICATION.md](VERIFICATION.md) | what was actually run, and what remains unverified |
+
+---
+
+## Repository layout
+
+```text
+SKILL.md              skill contract: modes, prime directive, gates
+START_HERE.md         user quickstart
+AUTOPILOT.md          end-to-end runbook
+EDITORS.md            per-editor activation
+WRITING.md            writing playbook
+REVIEWING.md          reviewing playbook
+conferences/          venue profiles, template sources, fit signals
+guides/               evidence, citations, math, repro, acceptance, resubmission
+templates/            ledgers, registries, review/acceptance sheets
+scripts/              checkers, CLI, build/audit
+examples/             a mini paper that passes every gate
+assets/               logo + social preview
+```
+
+---
+
+## Safety and limits
+
+- **No fabricated experiments.** If the minimum publishable unit cannot be run,
+  Papercraft stops at feasibility and delivers a plan.
+- **No fabricated citations.** A DOI/arXiv/ACL page must be opened; otherwise
+  the key is `UNVERIFIED` and does not go into the PDF.
+- **No template guessing.** `conferences/templates.json` ships with `url: null`;
+  you provide the official URL once, and Papercraft records provenance.
+- **No acceptance guarantee.** The acceptance step is a risk memo, not a
+  prediction.
+- **Not a replacement for peer review.** Simulated reviewers are a check, not a
+  decision.
+- **The checkers have limits.** `check_math` does not prove derivations;
+  `check_citations` is structural (metadata requires a human/agent to open the
+  page); `check_repro` trusts the manifest commands it is given.
+
+---
+
+## Development
+
+No third-party Python dependencies. LaTeX is required for the build tests.
+
+```bash
+make lint        # profiles + Python compile
+make test        # smoke, unit, install, autopilot, template, resubmit
+make test-fast   # the subset that does not need LaTeX
+```
 
 ---
 
 ## Contributing
 
-See `CONTRIBUTING.md`. Good contributions: new venue profiles with verified
-CFPs, new checkers with tests, failure-mode case studies, clearer rules.
-Please do not add rules that encourage hiding limitations or fabricating
-results.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Good contributions: verified conference
+profiles, new checkers with tests, failure-mode case studies, clearer rules.
+Please do not add rules that encourage hiding limitations or fabricating results.
 
 ---
 
 ## License
 
-MIT. See `LICENSE`.
+MIT. See [LICENSE](LICENSE).
 
 ## Citation
 
 ```bibtex
-@misc{papercraft2026,
-  title  = {Papercraft: Evidence-First Paper Production and Review for AI Agents},
-  author = {Papercraft contributors},
+@software{papercraft2026,
+  title  = {Papercraft: Evidence-first paper writing and review for AI agents},
+  author = {{Papercraft contributors}},
   year   = {2026},
-  url    = {https://github.com/<your-org>/papercraft}
+  url    = {https://github.com/Linus-Shyu/papercraft}
 }
 ```

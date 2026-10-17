@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Quickstart
+    url: https://github.com/Linus-Shyu/papercraft/blob/main/START_HERE.md
+    about: Install and run the autopilot in three steps.
+  - name: Editor activation
+    url: https://github.com/Linus-Shyu/papercraft/blob/main/EDITORS.md
+    about: How to load the skill in DSH, Claude Code, Cursor, Codex, Copilot, etc.

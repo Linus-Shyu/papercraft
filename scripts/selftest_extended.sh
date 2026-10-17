@@ -68,9 +68,9 @@ JSON
 expect 0 python3 "${HERE}/check_repro.py" --manifest "${TMP}/repro/ok.json" --root "${TMP}/repro" --run
 
 # review: score/text mismatch
-python3 - <<'PY'
+python3 - <<PY
 import json
-r=json.load(open("/Users/linusshyu/Desktop/document/papercraft/templates/review-score.json"))
+r=json.load(open("${ROOT}/templates/review-score.json"))
 r["overall"]=3; r["recommendation"]="accept"
 json.dump(r,open("/tmp/pc_bad_review.json","w"))
 PY
@@ -78,9 +78,9 @@ expect 1 python3 "${HERE}/score_review.py" --review /tmp/pc_bad_review.json
 expect 0 python3 "${HERE}/score_review.py" --review "${ROOT}/templates/review-score.json"
 
 # acceptance: submit with a BLOCKER
-python3 - <<'PY'
+python3 - <<PY
 import json
-a=json.load(open("/Users/linusshyu/Desktop/document/papercraft/templates/acceptance.json"))
+a=json.load(open("${ROOT}/templates/acceptance.json"))
 a["risks"].append({"id":"R3","severity":"BLOCKER","risk":"artifact fails","mitigation":"fix"})
 json.dump(a,open("/tmp/pc_bad_accept.json","w"))
 PY

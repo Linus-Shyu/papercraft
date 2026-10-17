@@ -32,6 +32,34 @@ Papercraft is a set of **contracts and checkers** for exactly these failures.
 
 ---
 
+## Zero-config (topic only)
+
+```bash
+./papercraft new --topic "How should we evaluate step-by-step LLM tutoring?" \
+  --venue aaai --dir ~/papers/my-paper
+cd ~/papers/my-paper
+python3 /path/to/papercraft/scripts/papercraft.py next
+```
+
+Then paste one prompt into your agent:
+
+```
+Run Papercraft Autopilot for ~/papers/my-paper.
+Read /path/to/papercraft/AUTOPILOT.md and follow it.
+I only care about the topic; ask me at most 3 questions (venue, constraints,
+must-use data/code). If I say "you decide", pick defaults and record them.
+Do not fabricate results or citations. Stop at H1, H2, H3.
+```
+
+The agent runs survey → feasibility → design → execute → write → audit →
+review → acceptance → package. The user only picks the topic (and optionally
+the venue); the agent asks at most three questions and stops at three
+checkpoints. It will **not** invent experiments, numbers, or citations.
+
+See `START_HERE.md` for the 3-step version.
+
+---
+
 ## Full research lifecycle
 
 | Stage | Mode | Playbook | Gate |
@@ -151,6 +179,9 @@ Do not apply any page limit from memory.
 | Path | Purpose |
 |---|---|
 | `SKILL.md` | Router: modes, gates, prime directive, Harness rules |
+| `START_HERE.md` | One-topic quickstart (user-facing) |
+| `AUTOPILOT.md` | End-to-end stages, prompts, checkpoints |
+| `papercraft` | CLI: `new`, `status`, `next`, `mark`, `check`, `package` |
 | `WRITING.md` | Section-by-section writing playbook |
 | `REVIEWING.md` | Adversarial review + scoring rubric |
 | `conferences/` | 10 venue profiles + schema + index |

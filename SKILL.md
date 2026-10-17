@@ -8,7 +8,7 @@ description: >-
   figures/tables, adversarial reviewing, and per-conference profiles (AAAI,
   NeurIPS, ICML, ICLR, ACL, EMNLP, CVPR, KDD, CHI, TMLR).
 license: MIT
-version: 2.0.1
+version: 3.0.0
 ---
 
 # Papercraft — Evidence-First Paper Production & Review
@@ -45,6 +45,27 @@ A small operating system for producing a paper with an AI assistant:
 reviewer opinions. If the evidence does not exist, the correct output is
 `UNVERIFIED` or "stop", not a plausible sentence.
 
+### Autopilot (the one-prompt mode)
+
+If the user gives only a topic/question, run `AUTOPILOT.md`:
+
+- ask **at most 3 questions** (venue, constraints, must-use data/code), all at once;
+- if the user says "you decide", pick defaults and record them in
+  `paper_state/plan.json` under `assumptions`;
+- run the stages in order, updating `paper_state/plan.json` with
+  `scripts/papercraft.py mark`;
+- stop at **H1** (RQ/venue), **H2** (feasibility), **H3** (submit);
+- never fabricate an experiment, number, or citation;
+- if the MPU cannot be run, deliver a **plan + negative result**, not a paper.
+
+Create the project with:
+
+```bash
+./papercraft new --topic "<topic>" --venue aaai --dir <project>
+cd <project>
+python3 <papercraft>/scripts/papercraft.py next
+```
+
 ---
 
 ## 1. Prime directive (non-negotiable)
@@ -70,6 +91,7 @@ Read the user's request, pick **one** primary mode, and state it.
 
 | Mode | Trigger | Read first | Output |
 |---|---|---|---|
+| `autopilot` | User gives only a topic | `AUTOPILOT.md` + `START_HERE.md` | Full pipeline, 3 questions, 3 checkpoints |
 | `intake` | New paper/project, unclear scope | `WRITING.md` §1–3, `conferences/` | Scope memo + conference profile + open questions |
 | `survey` | Literature review / novelty check | `guides/literature.md` | Matrix + closest-3 + delta |
 | `feasibility` | Go/no-go before experiments | `guides/feasibility.md` | Memo + MPU + resource/risk table |
@@ -308,7 +330,7 @@ packaging (`check_anonymity.py`).
 Every Papercraft response ends with:
 
 ```
-MODE: <intake|survey|feasibility|design|write|numbers|figures|citations|audit|review|acceptance|rebut|camera-ready|conference>
+MODE: <autopilot|intake|survey|feasibility|design|write|numbers|figures|citations|audit|review|acceptance|rebut|camera-ready|conference>
 GATES: G0 <PASS/FAIL/NA> · G1 ... · G11 ...
 BLOCKERS: <n>
 NEXT: <one action>
@@ -324,6 +346,8 @@ For rebuttals, use `guides/rebuttal.md` §2.
 
 ```
 SKILL.md                     this file
+START_HERE.md                one-topic quickstart
+AUTOPILOT.md                 end-to-end runbook (stages, prompts, checkpoints)
 WRITING.md                   writing playbook (standalone)
 REVIEWING.md                 reviewing playbook (standalone)
 conferences/                 venue profiles + schema
@@ -341,6 +365,7 @@ guides/rebuttal.md           rebuttal / camera-ready
 templates/                   CSV/MD/JSON state files
 scripts/                     checkers + build/audit + scoring
 install.py                   multi-agent installer (native dirs + pointers)
+papercraft                   CLI wrapper (new/status/next/mark/check/package)
 examples/config.example.yaml minimal config
 ```
 

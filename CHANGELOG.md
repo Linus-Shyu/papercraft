@@ -1,5 +1,23 @@
 # Changelog
 
+## 3.0.0 — 2026-10-17
+
+One-topic autopilot:
+
+- `AUTOPILOT.md`: end-to-end runbook (topic → RQ → survey → feasibility →
+  design → execute → write → audit → review → acceptance → package), with
+  stage prompts, 3 questions, 3 human checkpoints, and explicit stop conditions.
+- `START_HERE.md`: user-facing 3-step quickstart.
+- `papercraft` CLI (stdlib only):
+  - `new` scaffolds `main.tex`, `refs.bib`, `paper_state/`, `data/results/`;
+  - `status`, `next`, `mark` drive `paper_state/plan.json`;
+  - `check` runs the audit gates; `package` builds PDF + source/artifact zip
+    and refuses to package when gates fail (unless `--skip-check`);
+  - `list-venues`, `doctor`.
+- `SKILL.md` gains an `autopilot` mode: only the topic is required; at most 3
+  questions; no fabricated experiments/citations; stop with a plan if infeasible.
+- `scripts/autopilot_selftest.sh` tests scaffold → next → mark → package.
+
 ## 2.0.1 — 2026-10-17
 
 Fixes found by a controlled A/B audit of a planted-error paper:

@@ -1,0 +1,21 @@
+{
+  "tolerance": 0.005,
+  "entries": [
+    {
+      "id": "E1.product.ear",
+      "value": 0.5623,
+      "format": "0.00",
+      "source": "data/results/e1_atep.json#conditions[0].ear",
+      "note": "episode-macro, n=16",
+      "bad_values": ["0.57", "0.55"]
+    },
+    {
+      "id": "E1.direct.ear",
+      "value": 0.0594,
+      "format": "0.00",
+      "source": "data/results/e1_atep.json#conditions[1].ear",
+      "note": "episode-macro, n=16",
+      "bad_values": []
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+fig_id,label,script,data,message,referenced_in,status
+F1,fig:overview,scripts/make_fig1.py,data/schema.json,"The trace has five public bindings",intro,ok
+F2,fig:results,scripts/make_fig4.py,data/results/e9.json,"Blank page exposes vacuous credit","results §6.3",needs-fix

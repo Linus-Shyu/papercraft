@@ -1,0 +1,42 @@
+{
+  "tolerance": 0.005,
+  "entries": [
+    {
+      "id": "E1.product.ear",
+      "value": 0.5623,
+      "format": "0.00",
+      "source": "data/results/e1_atep.json#conditions[0].ear",
+      "files": [
+        "main.tex"
+      ],
+      "bad_values": [
+        "0.57"
+      ],
+      "context": "reference traces"
+    },
+    {
+      "id": "E1.direct.ear",
+      "value": 0.0594,
+      "format": "0.00",
+      "source": "data/results/e1_atep.json#conditions[1].ear",
+      "files": [
+        "main.tex"
+      ],
+      "bad_values": [
+        "0.07"
+      ],
+      "context": "Direct-Answer"
+    },
+    {
+      "id": "E1.no_viz.ear",
+      "value": 0.5405,
+      "format": "0.00",
+      "source": "data/results/e1_atep.json#conditions[2].ear",
+      "files": [
+        "main.tex"
+      ],
+      "bad_values": [],
+      "context": "w/o Visual state"
+    }
+  ]
+}

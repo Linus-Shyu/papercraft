@@ -1,0 +1,21 @@
+# Papercraft config (copy to paper_state/config.yaml)
+paper:
+  main: main.tex
+  bib: references.bib
+  supplement: supplement.tex
+  build_dir: /tmp/papercraft-build
+conference:
+  id: aaai          # see conferences/index.yaml
+  year: 2027
+  profile: conferences/aaai.md
+state:
+  dir: paper_state
+  claim_ledger: claim-ledger.csv
+  experiment_registry: experiment-registry.csv
+  figure_registry: figure-registry.csv
+  numbers: numbers.json
+checks:
+  numbers_tolerance: 0.005
+  strict_citations: true
+  strict_conference: true
+  scan_pdf_metadata: true

@@ -1,0 +1,3 @@
+exp_id,hypothesis,command,seed,output,table,status,runtime,owner,updated
+E1,"answer-only fails trace validity","python3 scripts/experiments/e1.py",0,data/results/e1.json,"Table 2",cached,2 min CPU,first author,2026-10-17
+E18,"value-only text separates EAR from VGR","python3 scripts/experiments/e18.py --seed 20270620",20270620,data/results/e18.json,"Table 6",cached,1 min CPU,first author,2026-10-17

@@ -1,0 +1,40 @@
+# Conference index — aliases to profiles.
+# Add new venues here; keep ids lowercase, no spaces.
+#
+# status is informational; the authoritative status is in each profile.
+# Never treat this file as a CFP.
+
+default: _default
+
+aliases:
+  aaai: aaai
+  aaai27: aaai
+  aaai2027: aaai
+
+  neurips: neurips
+  nips: neurips
+  neurips2026: neurips
+
+  icml: icml
+  icml2026: icml
+
+  iclr: iclr
+  iclr2027: iclr
+
+  acl: acl
+  acl2026: acl
+
+  emnlp: emnlp
+  emnlp2026: emnlp
+
+  cvpr: cvpr
+  cvpr2026: cvpr
+
+  kdd: kdd
+  kdd2026: kdd
+
+  chi: chi
+  chi2026: chi
+
+  tmlr: tmlr
+  jmlr: tmlr

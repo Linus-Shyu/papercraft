@@ -1,0 +1,14 @@
+{
+  "tolerance": 0.005,
+  "entries": [
+    {
+      "id": "pilot.ours.ear",
+      "value": 0.5623,
+      "format": "0.00",
+      "source": "data/results/e1.json",
+      "files": ["main.tex"],
+      "context": "report",
+      "bad_values": ["0.57"]
+    }
+  ]
+}

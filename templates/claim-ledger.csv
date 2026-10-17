@@ -1,0 +1,5 @@
+claim_id,claim,type,section,evidence_id,status,strength,boundary,owner,updated
+C1,"We introduce <X>, a <object> for <purpose>",existence,"abstract; intro",",sec:method",SUPPORTED,shows,"scope: <...>",first author,2026-10-17
+C2,"<X> separates <A> from <B> on <split>",comparative,"results §6.2","Table 2; E1",WEAK,indicates,"pilot n=16; no CI",first author,2026-10-17
+C3,"<Metric> fails when <binding> is broken",mechanistic,"results §6.3","Table 6; E19",SUPPORTED,shows,"constructed control",first author,2026-10-17
+C4,"<Claim that should be deleted>",generality,"intro","",UNSUPPORTED,,,first author,2026-10-17

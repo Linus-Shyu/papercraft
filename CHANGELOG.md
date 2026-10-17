@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.0.1 — 2026-10-17
+
+Fixes found by a controlled A/B audit of a planted-error paper:
+
+- `audit.sh` now runs `check_math.py --strict` for G7. Undefined symbols and
+  unreferenced equation labels are **failures**, not warnings. (Previously G7
+  could PASS with undefined symbols.)
+- `check_anonymity.py` gained `--extra FILE_OR_DIR`; `audit.sh` scans `code/`
+  (or `scripts/`) in addition to `main.tex`/`supplement.tex`, so an email or
+  code-host URL hidden in the artifact is caught.
+- Documented that math.json must be complete before G7 can pass.
+
 ## 2.0.0 — 2026-10-17
 
 Full research lifecycle:

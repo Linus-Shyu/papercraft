@@ -98,6 +98,9 @@ python3 scripts/check_math.py --tex main.tex --config paper_state/math.json
 python3 scripts/check_math.py --tex main.tex --config paper_state/math.json --list
 ```
 
+`audit.sh` runs it with `--strict`, so undefined symbols and unreferenced
+equation labels are failures; fill `math.json` before the audit.
+
 It checks:
 
 - duplicate equation labels;

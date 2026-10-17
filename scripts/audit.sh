@@ -62,7 +62,13 @@ fi
 
 run "G4 floats" python3 "${HERE}/check_floats.py" --tex "${PAPER}/main.tex" --root "${PAPER}"
 
-run "G5 anonymity" python3 "${HERE}/check_anonymity.py" --root "${PAPER}" --tex "${PAPER}/main.tex" "${PAPER}/supplement.tex"
+if [[ -d "${PAPER}/code" ]]; then
+  run "G5 anonymity" python3 "${HERE}/check_anonymity.py" --root "${PAPER}" --tex "${PAPER}/main.tex" "${PAPER}/supplement.tex" --extra "${PAPER}/code"
+elif [[ -d "${PAPER}/scripts" ]]; then
+  run "G5 anonymity" python3 "${HERE}/check_anonymity.py" --root "${PAPER}" --tex "${PAPER}/main.tex" "${PAPER}/supplement.tex" --extra "${PAPER}/scripts"
+else
+  run "G5 anonymity" python3 "${HERE}/check_anonymity.py" --root "${PAPER}" --tex "${PAPER}/main.tex" "${PAPER}/supplement.tex"
+fi
 
 if [[ "${BUILD}" == "1" ]]; then
   run "G6 build" bash "${HERE}/build.sh" "${PAPER}" main.tex
@@ -71,7 +77,7 @@ else
 fi
 
 if [[ -f "${STATE}/math.json" ]]; then
-  run "G7 math" python3 "${HERE}/check_math.py" --tex "${PAPER}/main.tex" --config "${STATE}/math.json" ${STRICT}
+  run "G7 math" python3 "${HERE}/check_math.py" --tex "${PAPER}/main.tex" --config "${STATE}/math.json" --strict
 else
   echo "== G7 math: SKIP (no ${STATE}/math.json)"
 fi

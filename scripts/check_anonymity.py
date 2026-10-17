@@ -52,6 +52,8 @@ def main() -> int:
                     help="files to scan; default: all *.tex under root (excluding paper_state)")
     ap.add_argument("--names", default="")
     ap.add_argument("--institutions", default="")
+    ap.add_argument("--extra", nargs="*", default=[],
+                    help="extra files/dirs to scan (e.g. code/, scripts/)")
     ap.add_argument("--config", default=None)
     ap.add_argument("--strict", action="store_true", help="URLs become failures")
     args = ap.parse_args()
@@ -91,7 +93,17 @@ def main() -> int:
         files = [p for p in preferred if p.exists()]
         if not files:
             files = [p for p in root.rglob("*.tex") if "paper_state" not in p.parts]
-    files = [p for p in files if p.exists()]
+    TEXT_EXT = {".py", ".sh", ".md", ".txt", ".json", ".yaml", ".yml", ".bib", ".tex", ".cfg", ".ini"}
+    for x in args.extra:
+        q = Path(x)
+        if not q.is_absolute():
+            cand = Path.cwd() / q
+            q = cand if cand.exists() else (root / q)
+        if q.is_dir():
+            files.extend(p for p in q.rglob("*") if p.is_file() and p.suffix in TEXT_EXT)
+        elif q.is_file():
+            files.append(q)
+    files = list(dict.fromkeys(p for p in files if p.exists()))
     if not files:
         print("IO ERROR: no .tex files", file=sys.stderr)
         return 2

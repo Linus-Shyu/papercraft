@@ -6,6 +6,7 @@ test:
 	bash scripts/selftest_extended.sh
 	bash scripts/install_selftest.sh
 	bash scripts/autopilot_selftest.sh
+	bash scripts/template_selftest.sh
 
 lint:
 	python3 -m py_compile scripts/*.py

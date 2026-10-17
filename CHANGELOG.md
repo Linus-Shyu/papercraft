@@ -1,5 +1,21 @@
 # Changelog
 
+## 3.1.0 — 2026-10-17
+
+Official template fetching:
+
+- `conferences/templates.json`: per-venue template sources, deliberately
+  `url: null` (never guess; verify the current CFP).
+- `scripts/fetch_template.py`: HTTPS download or local `--archive`; size caps;
+  path-traversal/symlink rejection; copies `.sty/.bst/.cls` to the project,
+  samples to `template/`; writes `TEMPLATE.md` with source, date, archive
+  sha256, and file hashes; caches the URL in `paper_state/template-source.json`.
+- `papercraft template --venue ... [--url|--archive] [--list]`.
+- `papercraft new --fetch-template`.
+- New autopilot stage `template` (G6) between execute and write.
+- `guides/templates.md`; `scripts/template_selftest.sh` (safe archive,
+  malicious archive, missing source).
+
 ## 3.0.1 — 2026-10-17
 
 - `EDITORS.md`: per-editor activation matrix (DSH, Claude Code, Cursor, Codex,

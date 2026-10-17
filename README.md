@@ -67,6 +67,7 @@ See `START_HERE.md` for the 3-step version, and `EDITORS.md` for per-editor acti
 | Survey / novelty | `survey` | `guides/literature.md` | G3b |
 | Feasibility / go-no-go | `feasibility` | `guides/feasibility.md` | G0 |
 | Experiment design | `design` | `guides/experiments.md` | G2, G8 |
+| Conference template | `template` | `guides/templates.md` | G6 |
 | Writing | `write` | `WRITING.md` | G1–G4 |
 | Math audit | `math` | `guides/math.md` | G7 |
 | Did the code run? | `repro` | `guides/repro.md` | G8 |
@@ -182,7 +183,7 @@ Do not apply any page limit from memory.
 | `START_HERE.md` | One-topic quickstart (user-facing) |
 | `AUTOPILOT.md` | End-to-end stages, prompts, checkpoints |
 | `EDITORS.md` | Per-editor activation, smoke test, troubleshooting |
-| `papercraft` | CLI: `new`, `status`, `next`, `mark`, `check`, `package` |
+| `papercraft` | CLI: `new`, `status`, `next`, `mark`, `template`, `check`, `package` |
 | `WRITING.md` | Section-by-section writing playbook |
 | `REVIEWING.md` | Adversarial review + scoring rubric |
 | `conferences/` | 10 venue profiles + schema + index |
@@ -194,11 +195,12 @@ Do not apply any page limit from memory.
 | `guides/math.md` | Notation, derivation checklist, numeric checks |
 | `guides/repro.md` | Run registry, cache vs run, artifact |
 | `guides/acceptance.md` | Readiness, venue fit, reviewer risk, decision |
+| `guides/templates.md` | Fetch/verify/provenance for official templates |
 | `guides/harness.md` | Tool-by-tool operating rules |
 | `guides/failure-modes.md` | Failure taxonomy with detectors |
 | `guides/rebuttal.md` | Rebuttal and camera-ready corrections |
 | `templates/` | Ledgers, registries, numbers, review report, checklist |
-| `scripts/` | `check_numbers`, `check_citations`, `check_literature`, `check_floats`, `check_math`, `check_repro`, `check_anonymity`, `check_conference`, `score_review`, `score_acceptance`, `build`, `audit` |
+| `scripts/` | `check_numbers`, `check_citations`, `check_literature`, `check_floats`, `check_math`, `check_repro`, `check_anonymity`, `check_conference`, `score_review`, `score_acceptance`, `fetch_template`, `build`, `audit` |
 | `examples/` | Minimal config and numbers file |
 | `install.sh` / `install.py` | Multi-agent installer (native dirs + pointer files) |
 | `scripts/install_selftest.sh` | Installer round-trip test (temp project only) |

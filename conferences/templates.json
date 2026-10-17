@@ -1,0 +1,113 @@
+{
+  "_comment": "Template sources are VERIFY by default. Never guess a URL; open the current CFP/author kit, then run: papercraft template --venue <id> --url <official-kit-url>. The URL is cached in paper_state/template-source.json.",
+  "_default": {
+    "name": "Generic",
+    "year": null,
+    "url": null,
+    "archive": null,
+    "files": [],
+    "license": null,
+    "verified_on": null,
+    "notes": "Use the official template for the target venue; do not reuse another year's style."
+  },
+  "aaai": {
+    "name": "AAAI",
+    "year": null,
+    "url": null,
+    "archive": null,
+    "files": ["aaai2027.sty", "aaai2027.bst"],
+    "license": null,
+    "verified_on": null,
+    "notes": "Find the current Author Kit on aaai.org; the style/version changes per year."
+  },
+  "neurips": {
+    "name": "NeurIPS",
+    "year": null,
+    "url": null,
+    "archive": null,
+    "files": ["neurips_2026.sty", "neurips_2026.bst"],
+    "license": null,
+    "verified_on": null,
+    "notes": "Use the current year's style file from the NeurIPS CFP/author kit."
+  },
+  "icml": {
+    "name": "ICML",
+    "year": null,
+    "url": null,
+    "archive": null,
+    "files": ["icml2026.sty", "icml2026.bst"],
+    "license": null,
+    "verified_on": null,
+    "notes": "Use the current ICML style package from the conference site."
+  },
+  "iclr": {
+    "name": "ICLR",
+    "year": null,
+    "url": null,
+    "archive": null,
+    "files": ["iclr2026_conference.sty", "iclr2026_conference.bst"],
+    "license": null,
+    "verified_on": null,
+    "notes": "Use the current ICLR style package from the conference site."
+  },
+  "acl": {
+    "name": "ACL",
+    "year": null,
+    "url": null,
+    "archive": null,
+    "files": ["acl.sty", "acl_natbib.bst"],
+    "license": null,
+    "verified_on": null,
+    "notes": "ACL style files are distributed via the ACL rolling review / acl-org style repository; verify the current version."
+  },
+  "emnlp": {
+    "name": "EMNLP",
+    "year": null,
+    "url": null,
+    "archive": null,
+    "files": ["acl.sty", "acl_natbib.bst"],
+    "license": null,
+    "verified_on": null,
+    "notes": "Same ACL style family; verify the current ARR/EMNLP requirement."
+  },
+  "cvpr": {
+    "name": "CVPR",
+    "year": null,
+    "url": null,
+    "archive": null,
+    "files": ["cvpr.sty", "IEEEtran.cls", "IEEEbib.bst"],
+    "license": null,
+    "verified_on": null,
+    "notes": "Use the current CVPR author kit (IEEE format); do not reuse last year's kit."
+  },
+  "kdd": {
+    "name": "KDD",
+    "year": null,
+    "url": null,
+    "archive": null,
+    "files": ["acmart.cls", "ACM-Reference-Format.bst"],
+    "license": null,
+    "verified_on": null,
+    "notes": "Use the current ACM master template/author kit specified by KDD."
+  },
+  "chi": {
+    "name": "CHI",
+    "year": null,
+    "url": null,
+    "archive": null,
+    "files": ["acmart.cls", "ACM-Reference-Format.bst"],
+    "license": null,
+    "verified_on": null,
+    "notes": "Use the current ACM CHI template; contribution type may change the format."
+  },
+  "tmlr": {
+    "name": "TMLR",
+    "year": null,
+    "url": null,
+    "archive": null,
+    "files": ["tmlr.sty", "tmlr.bst"],
+    "license": null,
+    "verified_on": null,
+    "notes": "Use the current TMLR style package from the journal site."
+  }
+}

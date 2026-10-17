@@ -23,9 +23,15 @@ import re
 import shutil
 import subprocess
 import sys
+import signal
 import tempfile
 import zipfile
 from pathlib import Path
+
+try:
+    signal.signal(signal.SIGPIPE, signal.SIG_DFL)
+except (AttributeError, ValueError):
+    pass
 
 SRC = Path(__file__).resolve().parents[1]
 TEMPLATES = SRC / "templates"
@@ -36,6 +42,7 @@ STAGES = [
     ("feasibility", "MPU + go/no-go", "G0"),
     ("design", "Experiment cards + controls", "G2/G8"),
     ("execute", "Run experiments, record hashes", "G8"),
+    ("template", "Fetch/verify official template", "G6"),
     ("write", "Draft LaTeX from ledger", "G1-G4"),
     ("audit", "Run all gates, fix blockers", "G2-G8"),
     ("review", "3 reviewer personas + scores", "G9"),
@@ -49,6 +56,7 @@ PROMPTS = {
     "feasibility": "Write MPU, resources, go/no-go; stop if impossible; H2 if risky.",
     "design": "Write experiment cards; fix baselines/controls/seeds/decision rules.",
     "execute": "Implement + run; record command/output/sha256; run check_repro --run.",
+    "template": "papercraft template --venue <id> --url <official-kit> (or --archive); verify TEMPLATE.md.",
     "write": "Draft main.tex from claims + numbers; generate tables/figures.",
     "audit": "bash scripts/audit.sh <dir> <dir>/paper_state --with-repro; fix blockers.",
     "review": "3 personas; fill review-score.json; run score_review.",
@@ -196,6 +204,13 @@ def cmd_new(args) -> int:
     write_empty_state(root, args.venue)
     assumptions = [f"venue={args.venue}", "compute=CPU-only", "data=public"]
     save_plan(root, default_plan(args.topic, args.venue, assumptions))
+    if getattr(args, "fetch_template", False):
+        rc = subprocess.call([
+            "python3", str(SRC / "scripts/fetch_template.py"),
+            "--venue", args.venue, "--dir", str(root),
+        ])
+        if rc != 0:
+            print("template pending: run `papercraft template --venue ... --url <official-kit>`")
     print(f"created {root}")
     print(f"  main.tex  refs.bib  paper_state/  data/results/  figures/")
     print(f"  venue={args.venue} (profile UNVERIFIED; verify the CFP)")
@@ -359,6 +374,27 @@ def cmd_package(args) -> int:
         shutil.rmtree(tmp, ignore_errors=True)
 
 
+def cmd_template(args) -> int:
+    cmd = ["python3", str(SRC / "scripts/fetch_template.py")]
+    if args.list:
+        cmd.append("--list")
+    else:
+        if not args.venue:
+            print("ERROR: --venue required (or use --list)", file=sys.stderr)
+            return 2
+        cmd += ["--venue", args.venue, "--dir", args.dir]
+    if getattr(args, "url", None):
+        cmd += ["--url", args.url]
+    if getattr(args, "archive", None):
+        cmd += ["--archive", args.archive]
+    if getattr(args, "force", False):
+        cmd.append("--force")
+    if getattr(args, "allow_http_local", False):
+        cmd.append("--allow-http-local")
+    print(" ".join(cmd))
+    return subprocess.call(cmd)
+
+
 def cmd_venues(_args) -> int:
     for p in sorted((SRC / "conferences").glob("*.md")):
         if p.name.startswith("_"):
@@ -390,6 +426,8 @@ def main() -> int:
     p.add_argument("--venue", default="aaai")
     p.add_argument("--dir", required=True)
     p.add_argument("--force", action="store_true")
+    p.add_argument("--fetch-template", action="store_true",
+                   help="fetch the official template if a source is configured")
     p.set_defaults(fn=cmd_new)
 
     for name, fn in (("status", cmd_status), ("next", cmd_next)):
@@ -415,6 +453,16 @@ def main() -> int:
     p.add_argument("--artifact", action="store_true")
     p.add_argument("--skip-check", action="store_true", help="draft only; do not run gates")
     p.set_defaults(fn=cmd_package)
+
+    p = sub.add_parser("template")
+    p.add_argument("--venue", default=None)
+    p.add_argument("--dir", default=".")
+    p.add_argument("--url", default=None)
+    p.add_argument("--archive", default=None)
+    p.add_argument("--force", action="store_true")
+    p.add_argument("--allow-http-local", action="store_true")
+    p.add_argument("--list", action="store_true")
+    p.set_defaults(fn=cmd_template)
 
     p = sub.add_parser("list-venues")
     p.set_defaults(fn=cmd_venues)

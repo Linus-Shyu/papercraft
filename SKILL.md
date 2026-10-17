@@ -8,7 +8,7 @@ description: >-
   figures/tables, adversarial reviewing, and per-conference profiles (AAAI,
   NeurIPS, ICML, ICLR, ACL, EMNLP, CVPR, KDD, CHI, TMLR).
 license: MIT
-version: 3.0.1
+version: 3.1.0
 ---
 
 # Papercraft — Evidence-First Paper Production & Review
@@ -360,13 +360,14 @@ guides/citations.md          citation verification
 guides/math.md               notation, derivation checklist, numeric checks
 guides/repro.md              run registry, cache vs run, artifact
 guides/acceptance.md         readiness, venue fit, reviewer risk, decision
+guides/templates.md          fetch/verify official templates + provenance
 guides/harness.md            DSH tool rules in depth
 guides/failure-modes.md      failure taxonomy + detection
 guides/rebuttal.md           rebuttal / camera-ready
 templates/                   CSV/MD/JSON state files
 scripts/                     checkers + build/audit + scoring
 install.py                   multi-agent installer (native dirs + pointers)
-papercraft                   CLI wrapper (new/status/next/mark/check/package)
+papercraft                   CLI wrapper (new/status/next/mark/template/check/package)
 examples/config.example.yaml minimal config
 ```
 

@@ -50,6 +50,7 @@ Then it proceeds without waiting for a perfect answer.
 | 2 | `feasibility` | MPU, resources, go/no-go; **H2** if risky | `feasibility.md` | G0 |
 | 3 | `design` | Experiment cards, baselines, controls, seeds, decision rules | `experiment-plan.md` | G2/G8 plan |
 | 4 | `execute` | Write code, run it, record command/output/hash | `data/results/*`, `repro-manifest.json` | G8 |
+| 4b | `template` | Fetch/verify the official template; record provenance | `TEMPLATE.md`, `.sty/.bst/.cls` | G6 |
 | 5 | `write` | Draft LaTeX from ledger + numbers; generate tables/figures | `main.tex`, tables, figures | G1–G4 |
 | 6 | `audit` | Run all gates, fix, rebuild | gate report | G2–G8 |
 | 7 | `review` | 3 reviewer personas (methods, stats, novelty), score | `review/` | G9 |
@@ -111,6 +112,16 @@ Run stage 4. Implement the smallest scripts that produce the numbers.
 Run them; record command, exit code, output path, sha256 in
 paper_state/repro-manifest.json. Run check_repro.py --run.
 If a command needs an API/private data you do not have, mark it cached and say so.
+```
+
+### 3.5b Template
+
+```
+Run stage 4b. Find the current author kit URL in the CFP. Run
+`papercraft template --venue <id> --url <url>` (or --archive if the kit is
+behind a login). Check TEMPLATE.md: source, sha256, version. If the kit's
+version differs from the CFP, stop. Then copy the documentclass/usepackage
+lines into main.tex.
 ```
 
 ### 3.6 Write

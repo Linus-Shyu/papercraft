@@ -79,8 +79,11 @@ Both were fixed in v2.0.1 and are covered by tests.
 - Anonymity scanning does not read PDF metadata or binary assets.
 - No Windows test; the scripts are POSIX-oriented (Python is cross-platform).
 - The A/B is n=1 and not a peer-reviewed evaluation.
-- At the time of writing, the GitHub Actions workflow had not yet run on GitHub;
-  it is included in the first push.
+- GitHub Actions ran on the first push: `fast` (Python 3.11 and 3.12) and
+  `full (LaTeX)` both passed
+  ([run 39031016182](https://github.com/Linus-Shyu/papercraft/actions/runs/39031016182)).
+- GitHub Pages built: <https://linusshyu.dev/papercraft/> returns 200.
+- Release: <https://github.com/Linus-Shyu/papercraft/releases/tag/v3.3.0>.
 
 ## AI assistance
 
